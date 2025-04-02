@@ -1,0 +1,12 @@
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\bin\Debug\net9.0\TraduxAI.Shared.deps.json
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\bin\Debug\net9.0\TraduxAI.Shared.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\bin\Debug\net9.0\TraduxAI.Shared.pdb
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.csproj.AssemblyReference.cache
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.AssemblyInfoInputs.cache
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.AssemblyInfo.cs
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.csproj.CoreCompileInputs.cache
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\refint\TraduxAI.Shared.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.pdb
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\ref\TraduxAI.Shared.dll

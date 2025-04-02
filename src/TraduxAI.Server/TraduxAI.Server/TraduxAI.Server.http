@@ -1,0 +1,14 @@
+@TraduxAI.Server_HostAddress = http://localhost:5109
+
+GET {{TraduxAI.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+POST {{TraduxAI.Server_HostAddress}}/api/FileTranslate/Translate
+Content-Type: application/json
+Accept: application/json
+{
+  "filePath": "C:\\Users\\Admin\\testOCR.jpg",
+  "sourceLanguage": "es",
+  "targetLanguage": "en"
+}

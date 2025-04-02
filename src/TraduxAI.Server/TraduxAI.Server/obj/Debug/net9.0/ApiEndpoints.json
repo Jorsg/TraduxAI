@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "TraduxAI.Server.Controllers.FileTranslateController",
+    "Method": "FileToTranslateAsync",
+    "RelativePath": "api/FileTranslate/Translate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TraduxAI.Shared.Models.ConvertFileRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
