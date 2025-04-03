@@ -33,21 +33,21 @@ namespace TraduxAI.Translation.Core.Services
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
 		}
 
-		public async Task<string> GetCompletionAsync(string prompt, int maxTokens = 256)
+		public async Task<string> GetCompletionAsync(string prompt)
 		{
 			var request = new OpenAIRequest
 			{
-				Model = "gpt-4",
+				Model = "gpt-4o",
 				Messages = new List<Message>
 				{
 					new Message
 					{
 						Role = "user",
-						Content = prompt
+						ContentText = prompt
 					}
 				},
 				Temperature = 0.7,
-				MaxTokens = maxTokens
+				//MaxTokens = maxTokens
 			};
 
 			var response = await SendRequestAsync<OpenAIResponse>(request, "v1/chat/completions");
@@ -59,20 +59,33 @@ namespace TraduxAI.Translation.Core.Services
 			// Construct a prompt asking GPT-4 Vision to describe the image
 			var request = new OpenAIRequest
 			{
-				Model = "gpt-4-vision-preview",
+				Model = "gpt-4o",
+				//MaxTokens = 300,
+
 				Messages = new List<Message>
 				{
 					new Message
 					{
 						Role = "user",
-						Content = "Please extract and transcribe all text from this image accurately. If there's no text, just describe what you see."
+						Content = new List<MessageContent>
+						{
+							new MessageContent
+							{
+								Type = "text",
+								Text = "Please extract and transcribe all text from this image. If there's no text, just describe the image."
+							},
+							new MessageContent
+							{
+								Type = "image_url",
+								Image_url = new ImageUrl
+								{
+									Url = $"data:image/png;base64,{base64Image}",
+								}
+							}
+						},
 					}
-				},
-				MaxTokens = 300
+				}
 			};
-
-			// This is simplified - in a real implementation, you'd need to properly format the base64 image
-			// for the vision API according to OpenAI's documentation
 
 			var response = await SendRequestAsync<OpenAIResponse>(request, "v1/chat/completions");
 			return response.Choices.FirstOrDefault()?.Message.Content ?? string.Empty;
@@ -86,21 +99,22 @@ namespace TraduxAI.Translation.Core.Services
 			// This is a placeholder implementation using GPT-4
 			var promptText = "This is a PDF document. Please extract all text content from it and format it properly.";
 
-			return await GetCompletionAsync(promptText, 1000);
+			return await GetCompletionAsync(promptText);
 		}
 
 		public async Task<string> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage)
 		{
 			var prompt = $"Translate the following text from {sourceLanguage} to {targetLanguage}:\n\n{text}";
 
-			return await GetCompletionAsync(prompt, 1000);
+			return await GetCompletionAsync(prompt);
 		}
 
 		private async Task<T> SendRequestAsync<T>(object requestData, string endpoint)
 		{
 			var jsonContent = JsonSerializer.Serialize(requestData, new JsonSerializerOptions
 			{
-				PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+				DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
 			});
 
 			var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");

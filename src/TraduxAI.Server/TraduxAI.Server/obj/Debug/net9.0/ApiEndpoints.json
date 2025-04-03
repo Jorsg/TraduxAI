@@ -1,18 +1,106 @@
 [
   {
-    "ContainingType": "TraduxAI.Server.Controllers.FileTranslateController",
-    "Method": "FileToTranslateAsync",
-    "RelativePath": "api/FileTranslate/Translate",
+    "ContainingType": "TraduxAI.Server.Controllers.DocumentProcessingController",
+    "Method": "ExtractTextFromImage",
+    "RelativePath": "api/DocumentProcessing/ocr/image",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "base64Image",
+        "Type": "TraduxAI.Server.Controllers.Base64Request",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TraduxAI.Shared.Models.DocumentProcessResult",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TraduxAI.Server.Controllers.DocumentProcessingController",
+    "Method": "ExtractTextFromPdf",
+    "RelativePath": "api/DocumentProcessing/ocr/pdf",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "base64Pdf",
+        "Type": "TraduxAI.Server.Controllers.Base64Request",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TraduxAI.Shared.Models.DocumentProcessResult",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TraduxAI.Server.Controllers.DocumentProcessingController",
+    "Method": "ProcessDocument",
+    "RelativePath": "api/DocumentProcessing/process",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "TraduxAI.Shared.Models.ConvertFileRequest",
+        "Type": "TraduxAI.Shared.Models.DocumentProcessRequest",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "TraduxAI.Shared.Models.DocumentProcessResult",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TraduxAI.Server.Controllers.DocumentProcessingController",
+    "Method": "TranslateText",
+    "RelativePath": "api/DocumentProcessing/translate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TraduxAI.Server.Controllers.TranslateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TraduxAI.Shared.Models.DocumentProcessResult",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

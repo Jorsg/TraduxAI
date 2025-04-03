@@ -12,14 +12,14 @@ namespace TraduxAI.Shared.Models
 		public string Object { get; set; } = string.Empty;
 		public long Created { get; set; }
 		public string Model { get; set; } = string.Empty;
-		public List<Choice> Choices { get; set; } = new List<Choice>();
+		public List<Choice> Choices { get; set; }
 		public Usage Usage { get; set; } = new Usage();
 	}
 
 	public class Choice
 	{
 		public int Index { get; set; }
-		public Message Message { get; set; } = new Message();
+		public MessageResponse Message { get; set; }
 		public string FinishReason { get; set; } = string.Empty;
 	}
 
@@ -28,5 +28,11 @@ namespace TraduxAI.Shared.Models
 		public int PromptTokens { get; set; }
 		public int CompletionTokens { get; set; }
 		public int TotalTokens { get; set; }
+	}
+
+	public class MessageResponse
+	{
+		public string Role { get; set; }
+		public string Content { get; set; } 
 	}
 }

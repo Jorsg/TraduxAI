@@ -9,10 +9,10 @@ namespace TraduxAI.Shared.Models
 
 	public class OpenAIRequest
 	{
-		public string Model { get; set; } = "gpt-4";
-		public List<Message> Messages { get; set; } = new List<Message>();
+		public string Model { get; set; } = "gpt-4o";
+		public List<Message> Messages { get; set; }
 		public double Temperature { get; set; } = 0.7;
-		public int MaxTokens { get; set; } = 256;
+		//public int MaxTokens { get; set; } = 256;
 	}
 
 
@@ -20,6 +20,7 @@ namespace TraduxAI.Shared.Models
 	public class Message
 	{
 		public string Role { get; set; } = "user";
-		public string Content { get; set; } = string.Empty;
+		public List<MessageContent>? Content { get; set; }
+		public string? ContentText { get; set; }
 	}
 }
