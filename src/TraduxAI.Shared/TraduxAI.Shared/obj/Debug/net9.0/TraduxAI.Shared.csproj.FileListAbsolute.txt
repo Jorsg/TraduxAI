@@ -6,6 +6,7 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.AssemblyInfoInputs.cache
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.AssemblyInfo.cs
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.csproj.CoreCompileInputs.cache
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.sourcelink.json
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.dll
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\refint\TraduxAI.Shared.dll
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Shared\TraduxAI.Shared\obj\Debug\net9.0\TraduxAI.Shared.pdb

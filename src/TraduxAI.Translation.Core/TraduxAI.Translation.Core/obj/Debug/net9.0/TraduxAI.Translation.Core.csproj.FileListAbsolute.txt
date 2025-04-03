@@ -12,6 +12,7 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Translation.Core\TraduxAI.Translation
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Translation.Core\TraduxAI.Translation.Core\obj\Debug\net9.0\TraduxAI.Translation.Core.AssemblyInfoInputs.cache
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Translation.Core\TraduxAI.Translation.Core\obj\Debug\net9.0\TraduxAI.Translation.Core.AssemblyInfo.cs
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Translation.Core\TraduxAI.Translation.Core\obj\Debug\net9.0\TraduxAI.Translation.Core.csproj.CoreCompileInputs.cache
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Translation.Core\TraduxAI.Translation.Core\obj\Debug\net9.0\TraduxAI.Translation.Core.sourcelink.json
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Translation.Core\TraduxAI.Translation.Core\obj\Debug\net9.0\TraduxAI.242412DF.Up2Date
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Translation.Core\TraduxAI.Translation.Core\obj\Debug\net9.0\TraduxAI.Translation.Core.dll
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Translation.Core\TraduxAI.Translation.Core\obj\Debug\net9.0\refint\TraduxAI.Translation.Core.dll

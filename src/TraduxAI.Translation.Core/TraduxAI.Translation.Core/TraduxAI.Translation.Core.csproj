@@ -16,4 +16,8 @@
     <ProjectReference Include="..\..\TraduxAI.Shared\TraduxAI.Shared\TraduxAI.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

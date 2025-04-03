@@ -8,7 +8,7 @@ namespace TraduxAI.Translation.Core.Interfaces
 {
 	public interface IOpenAIService
 	{
-		Task<string> GetCompletionAsync(string prompt, int maxTokens = 256);
+		Task<string> GetCompletionAsync(string prompt);
 		Task<string> ImageToTextAsync(string base64Image);
 		Task<string> PdfToTextAsync(string base64Pdf);
 		Task<string> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage);

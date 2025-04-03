@@ -14,6 +14,7 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Client\TraduxAI.Client\obj\Debug\net7
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Client\TraduxAI.Client\obj\Debug\net7.0\TraduxAI.Client.MvcApplicationPartsAssemblyInfo.cache
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Client\TraduxAI.Client\obj\Debug\net7.0\TraduxAI.Client.RazorAssemblyInfo.cache
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Client\TraduxAI.Client\obj\Debug\net7.0\TraduxAI.Client.RazorAssemblyInfo.cs
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Client\TraduxAI.Client\obj\Debug\net7.0\TraduxAI.Client.sourcelink.json
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Client\TraduxAI.Client\obj\Debug\net7.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Client\TraduxAI.Client\obj\Debug\net7.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Client\TraduxAI.Client\obj\Debug\net7.0\scopedcss\bundle\TraduxAI.Client.styles.css

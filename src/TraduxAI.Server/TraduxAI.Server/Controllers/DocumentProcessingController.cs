@@ -15,6 +15,7 @@ namespace TraduxAI.Server.Controllers
 		{
 			_documentProcessor = documentProcessor;
 		}
+
 		[HttpPost("process")]
 		public async Task<ActionResult<DocumentProcessResult>> ProcessDocument([FromBody] DocumentProcessRequest request)
 		{
@@ -26,22 +27,22 @@ namespace TraduxAI.Server.Controllers
 		}
 
 		[HttpPost("ocr/image")]
-		public async Task<ActionResult<DocumentProcessResult>> ExtractTextFromImage([FromBody] string base64Image)
+		public async Task<ActionResult<DocumentProcessResult>> ExtractTextFromImage([FromBody] Base64Request base64Image)
 		{
-			if (string.IsNullOrEmpty(base64Image))
+			if (string.IsNullOrEmpty(base64Image.Base64Content))
 				return BadRequest("Image content is required");
 
-			var result = await _documentProcessor.ExtractTextFromImageAsync(base64Image);
+			var result = await _documentProcessor.ExtractTextFromImageAsync(base64Image.Base64Content);
 			return Ok(result);
 		}
 
 		[HttpPost("ocr/pdf")]
-		public async Task<ActionResult<DocumentProcessResult>> ExtractTextFromPdf([FromBody] string base64Pdf)
+		public async Task<ActionResult<DocumentProcessResult>> ExtractTextFromPdf([FromBody] Base64Request base64Pdf)
 		{
-			if (string.IsNullOrEmpty(base64Pdf))
+			if (string.IsNullOrEmpty(base64Pdf.Base64Content))
 				return BadRequest("PDF content is required");
 
-			var result = await _documentProcessor.ExtractTextFromPdfAsync(base64Pdf);
+			var result = await _documentProcessor.ExtractTextFromPdfAsync(base64Pdf.Base64Content);
 			return Ok(result);
 		}
 
@@ -64,6 +65,11 @@ namespace TraduxAI.Server.Controllers
 		public string Text { get; set; } = string.Empty;
 		public string? SourceLanguage { get; set; }
 		public string? TargetLanguage { get; set; }
+	}
+
+	public class Base64Request
+	{
+		public string Base64Content { get; set; }
 	}
 }
 

@@ -12,3 +12,11 @@ Accept: application/json
   "sourceLanguage": "es",
   "targetLanguage": "en"
 }
+
+###
+POST {{TraduxAI.Server_HostAddress}}/api/DocumentProcessing/ocr/image
+Content-Type: application/json
+Accept: application/json
+{
+    "base64Image":"iVBORw0KGgoAAAANSUhEUgAAAJYAAAB4CAYAAAD1z5c3AAAAOXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZSBDcmVhdGlvbiB0aW1lIDIwMjMtMDktMTdUMjE6NTI6NTYtMDQ6MDAq7+8xAAAAAElFTkSuQmCC"
+}

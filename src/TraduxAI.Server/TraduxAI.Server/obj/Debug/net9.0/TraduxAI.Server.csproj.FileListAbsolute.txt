@@ -30,6 +30,7 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.csproj.CoreCompileInputs.cache
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.MvcApplicationPartsAssemblyInfo.cs
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.MvcApplicationPartsAssemblyInfo.cache
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.sourcelink.json
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\scopedcss\bundle\TraduxAI.Server.styles.css
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.build.json
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.development.json
