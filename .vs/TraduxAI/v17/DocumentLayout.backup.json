@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "D:\\Repos\\TradService\\TraduxAI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.translation.core\\traduxai.translation.core\\services\\openaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|solutionrelative:src\\traduxai.translation.core\\traduxai.translation.core\\services\\openaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4343269A-5DEF-4D7D-8D46-6CEB9DD53206}|src\\TraduxAI.Server\\TraduxAI.Server\\TraduxAI.Server.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.server\\traduxai.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4343269A-5DEF-4D7D-8D46-6CEB9DD53206}|src\\TraduxAI.Server\\TraduxAI.Server\\TraduxAI.Server.csproj|solutionrelative:src\\traduxai.server\\traduxai.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4343269A-5DEF-4D7D-8D46-6CEB9DD53206}|src\\TraduxAI.Server\\TraduxAI.Server\\TraduxAI.Server.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.server\\traduxai.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4343269A-5DEF-4D7D-8D46-6CEB9DD53206}|src\\TraduxAI.Server\\TraduxAI.Server\\TraduxAI.Server.csproj|solutionrelative:src\\traduxai.server\\traduxai.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4343269A-5DEF-4D7D-8D46-6CEB9DD53206}|src\\TraduxAI.Server\\TraduxAI.Server\\TraduxAI.Server.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.server\\traduxai.server\\controllers\\documentprocessingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4343269A-5DEF-4D7D-8D46-6CEB9DD53206}|src\\TraduxAI.Server\\TraduxAI.Server\\TraduxAI.Server.csproj|solutionrelative:src\\traduxai.server\\traduxai.server\\controllers\\documentprocessingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.translation.core\\traduxai.translation.core\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|solutionrelative:src\\traduxai.translation.core\\traduxai.translation.core\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3211AB2-BE01-4FB2-B1FC-2EAF56DF0027}|src\\TraduxAI.Shared\\TraduxAI.Shared\\TraduxAI.Shared.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.shared\\traduxai.shared\\models\\openairequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3211AB2-BE01-4FB2-B1FC-2EAF56DF0027}|src\\TraduxAI.Shared\\TraduxAI.Shared\\TraduxAI.Shared.csproj|solutionrelative:src\\traduxai.shared\\traduxai.shared\\models\\openairequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.translation.core\\traduxai.translation.core\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|solutionrelative:src\\traduxai.translation.core\\traduxai.translation.core\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3211AB2-BE01-4FB2-B1FC-2EAF56DF0027}|src\\TraduxAI.Shared\\TraduxAI.Shared\\TraduxAI.Shared.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.shared\\traduxai.shared\\models\\openairesponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3211AB2-BE01-4FB2-B1FC-2EAF56DF0027}|src\\TraduxAI.Shared\\TraduxAI.Shared\\TraduxAI.Shared.csproj|solutionrelative:src\\traduxai.shared\\traduxai.shared\\models\\openairesponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3211AB2-BE01-4FB2-B1FC-2EAF56DF0027}|src\\TraduxAI.Shared\\TraduxAI.Shared\\TraduxAI.Shared.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.shared\\traduxai.shared\\models\\messagecontent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3211AB2-BE01-4FB2-B1FC-2EAF56DF0027}|src\\TraduxAI.Shared\\TraduxAI.Shared\\TraduxAI.Shared.csproj|solutionrelative:src\\traduxai.shared\\traduxai.shared\\models\\messagecontent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.translation.core\\traduxai.translation.core\\services\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|solutionrelative:src\\traduxai.translation.core\\traduxai.translation.core\\services\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,52 +46,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "OpenAIResponse.cs",
-              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\OpenAIResponse.cs",
-              "RelativeDocumentMoniker": "src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\OpenAIResponse.cs",
-              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\OpenAIResponse.cs",
-              "RelativeToolTip": "src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\OpenAIResponse.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAuAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Server\\TraduxAI.Server\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "src\\TraduxAI.Server\\TraduxAI.Server\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Server\\TraduxAI.Server\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "src\\TraduxAI.Server\\TraduxAI.Server\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAqwCwAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T20:16:14.49Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MessageContent.cs",
-              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\MessageContent.cs",
-              "RelativeDocumentMoniker": "src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\MessageContent.cs",
-              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\MessageContent.cs",
-              "RelativeToolTip": "src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\MessageContent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T20:08:16.395Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "OpenAIRequest.cs",
-              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\OpenAIRequest.cs",
-              "RelativeDocumentMoniker": "src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\OpenAIRequest.cs",
-              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\OpenAIRequest.cs",
-              "RelativeToolTip": "src\\TraduxAI.Shared\\TraduxAI.Shared\\Models\\OpenAIRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T19:21:49.188Z",
+              "WhenOpened": "2025-04-04T19:47:53.906Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "DocumentProcessingController.cs",
-              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Server\\TraduxAI.Server\\Controllers\\DocumentProcessingController.cs",
-              "RelativeDocumentMoniker": "src\\TraduxAI.Server\\TraduxAI.Server\\Controllers\\DocumentProcessingController.cs",
-              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Server\\TraduxAI.Server\\Controllers\\DocumentProcessingController.cs",
-              "RelativeToolTip": "src\\TraduxAI.Server\\TraduxAI.Server\\Controllers\\DocumentProcessingController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAzAAAAAAAAAA==",
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\AuthService.cs",
+              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\AuthService.cs",
+              "RelativeToolTip": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\AuthService.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAApwC0AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T18:55:49.032Z",
+              "WhenOpened": "2025-04-04T19:41:30.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Interfaces\\IAuthService.cs",
+              "RelativeDocumentMoniker": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Interfaces\\IAuthService.cs",
+              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Interfaces\\IAuthService.cs",
+              "RelativeToolTip": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Interfaces\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T19:40:51.013Z",
               "EditorCaption": ""
             },
             {
@@ -106,22 +91,22 @@
               "RelativeDocumentMoniker": "src\\TraduxAI.Server\\TraduxAI.Server\\Program.cs",
               "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Server\\TraduxAI.Server\\Program.cs",
               "RelativeToolTip": "src\\TraduxAI.Server\\TraduxAI.Server\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAwwB8AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T18:55:49.052Z",
+              "WhenOpened": "2025-04-04T19:25:25.228Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "OpenAIService.cs",
-              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\OpenAIService.cs",
-              "RelativeDocumentMoniker": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\OpenAIService.cs",
-              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\OpenAIService.cs",
-              "RelativeToolTip": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\OpenAIService.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAAAEIAAAAQAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "JwtService.cs",
+              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\JwtService.cs",
+              "RelativeDocumentMoniker": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\JwtService.cs",
+              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\JwtService.cs",
+              "RelativeToolTip": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\JwtService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAqwBkAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T18:48:21.658Z",
+              "WhenOpened": "2025-04-04T18:58:41.118Z",
               "EditorCaption": ""
             }
           ]

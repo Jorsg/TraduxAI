@@ -1,5 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using TraduxAI.Shared.Data;
 using TraduxAI.Shared.Errors;
+using TraduxAI.Shared.Models;
 using TraduxAI.Translation.Core.Interfaces;
+using TraduxAI.Translation.Core.Repositories;
 using TraduxAI.Translation.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,12 +16,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
-// Register HTTP client
-builder.Services.AddHttpClient<IOpenAIService, OpenAIService>();
+//Bind JwtSettings
+var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+
 
 // Register services
 builder.Services.AddTransient<IOpenAIService, OpenAIService>();
 builder.Services.AddTransient<IDocumentProcessor, DocumentProcessorService>();
+builder.Services.Configure<MongoDbSettings>(
+	builder.Configuration.GetSection("MongoDbSettings"));
+builder.Services.AddTransient<IUserRepository,UserRepository>();
+builder.Services.AddTransient<MongoDbContext>();
+builder.Services.AddSingleton<JwtService>();
+builder.Services.AddTransient<IAuthService, AuthService>();
+
+
+// Register HTTP client
+builder.Services.AddHttpClient<IOpenAIService, OpenAIService>();
+
+
 
 // maxim request body size
 builder.WebHost.ConfigureKestrel(serverOptions =>
@@ -28,6 +48,28 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 var configureBuild = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .AddJsonFile("appsttings.json");
+
+//Authentication register
+builder.Services.AddAuthentication(options =>
+{
+	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+	options.RequireHttpsMetadata = false;
+	options.SaveToken = true;
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidIssuer = jwtSettings.Issuer,
+		ValidAudience = jwtSettings.Audience,
+		ValidateIssuerSigningKey = true,
+		IssuerSigningKey = new SymmetricSecurityKey(key),
+		ClockSkew = TimeSpan.Zero
+	};
+});
 
 var app = builder.Build();
 
@@ -76,7 +118,8 @@ if (exceptionHandlerFeature != null)
     });
 });
 
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 
