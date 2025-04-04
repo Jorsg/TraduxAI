@@ -22,7 +22,7 @@ namespace TraduxAI.Translation.Core.Services
 		{
 			_httpClient = httpClient;
 			_configuration = configuration;
-			_apiKey = _configuration["AI:ApiKey"];
+			_apiKey = _configuration["OpenAI:ApiKey"];
 
 			if (string.IsNullOrEmpty(_apiKey))
 			{
