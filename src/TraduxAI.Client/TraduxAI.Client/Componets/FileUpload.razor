@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+<inputFile onchange="OnFileChanged" class="form-control" accept="@Accept" />
+
+<h3>FileUpload</h3>
+
+@code {
+	[Parameter] public string Accept { get; set; } = ""; // Default accepted file types
+	[Parameter] public EventCallback<IBrowserFile> OnFileSelected { get; set; } // Event callback for file change
+
+	private async Task OnFileChanged(InputFileChangeEventArgs e)
+	{
+		if(e.FileCount > 0)
+		{
+			await OnFileSelected.InvokeAsync(e.File);
+		}
+	}
+}

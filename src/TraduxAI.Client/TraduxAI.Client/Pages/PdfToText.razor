@@ -1,0 +1,71 @@
+﻿@page "/pdf-to-text"
+@using TraduxAI.Shared.Models
+@using TraduxAI.Client.Services
+@inject IDocumentProcessingService DocumentService
+
+<h3>PDF To Text</h3>
+<div class="row">
+	<div class="col-md-6">
+		<FileUpload Accept=".pdf" OnFileSelected="HandlePdfSelected" />
+
+		@if (!string.IsNullOrEmpty(FileName))
+		{
+			<div class="mb-3">
+				<div class="card p-3">
+					<i class="bi bi-file-pdf" style="font-size: 2rem;"></i>
+					<p class="mb-0">@FileName</p>
+				</div>
+			</div>
+		}
+
+		<button class="btn btn-primary" @onclick="ProcessPdf" disabled="@(PdfBytes == null || IsProcessing)">
+			@if (IsProcessing)
+			{
+				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+			}
+
+		</button>
+	</div>
+
+	<div class="col-md-6">
+		<TextOutput Label="Extracted Text" Text="@ExtractedText" Rows="10" />
+	</div>
+</div>
+@code {
+	private byte[]? PdfBytes;
+	private string FileName = string.Empty;
+	private string ExtractedText = string.Empty;
+	private bool IsProcessing = false;
+
+	private async Task HandlePdfSelected(IBrowserFile file)
+	{
+		FileName = file.Name;
+		ExtractedText = string.Empty;
+		using var stream = file.OpenReadStream(20 * 1024 * 1024);
+		using var ms = new MemoryStream();
+		await stream.CopyToAsync(ms);
+		PdfBytes = ms.ToArray();
+	}
+
+
+	private async Task ProcessPdf()
+	{
+		if (PdfBytes == null) return;
+
+		IsProcessing = true;
+		try
+		{
+			var result = await DocumentService.ProcessPdfToTextAsync(PdfBytes);
+			ExtractedText = result.ProcessedContent;
+		}
+		catch (Exception ex)
+		{
+			ExtractedText = $"Error: {ex.Message}";
+		}
+		finally
+		{
+			IsProcessing = false;
+		}
+	}
+}

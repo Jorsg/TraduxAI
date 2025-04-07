@@ -1,0 +1,82 @@
+﻿@page "/translate"
+@using TraduxAI.Shared.Models
+@using TraduxAI.Client.Services
+@inject IDocumentProcessingService DocumentService
+
+<h3>Text Translation</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label class="form-label">Source Language</label>
+            <select class="form-select" @bind="SourceLanguage">
+                @foreach (var lang in Languages)
+                {
+                    <option value="@lang.Code">@lang.Label</option>
+                }
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Source Text</label>
+            <textarea class="form-control" rows="10" @bind="SourceText"></textarea>
+        </div>
+        
+        <button class="btn btn-primary" @onclick="TranslateText" disabled="@(string.IsNullOrEmpty(SourceText) || IsProcessing)">
+            @if (IsProcessing)
+            {
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+               
+            }           
+           
+        </button>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label class="form-label">Target Language</label>
+            <select class="form-select" @bind="TargetLanguage">
+                @foreach (var lang in Languages.Where(l => l.Code != "auto"))
+                {
+                    <option value="@lang.Code">@lang.Label</option>
+                }
+            </select>
+        </div>
+        
+        <TextOutput Label="Translated Text" Text="@TranslatedText" Rows="10" />
+    </div>
+</div>
+@code {
+    private string SourceText = string.Empty;
+    private string TranslatedText = string.Empty;
+    private string SourceLanguage = "auto";
+    private string TargetLanguage = "en";
+    private bool IsProcessing = false;
+
+    private List<(string Code, string Label)> Languages = new()
+    {
+        ("auto", "Auto Detect"),
+        ("en", "English"),
+        ("es", "Spanish"),
+        ("fr", "French"),
+       
+    };
+
+    private async Task TranslateText()
+    {
+        if (string.IsNullOrWhiteSpace(SourceText)) return;
+        IsProcessing = true;
+        try
+        {
+            var result = await DocumentService.TranslateTextAsync(SourceText, SourceLanguage, TargetLanguage);
+            TranslatedText = result.ProcessedContent;
+        }
+        catch (Exception ex)
+        {
+            TranslatedText = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            IsProcessing = false;
+        }
+    }
+}

@@ -1,10 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>85f95028-9654-446a-ac63-468036e45a36</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TraduxAI.Shared\TraduxAI.Shared\TraduxAI.Shared.csproj">
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
 
 </Project>
