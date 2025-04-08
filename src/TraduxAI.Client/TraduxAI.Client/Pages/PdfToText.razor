@@ -2,10 +2,12 @@
 @using TraduxAI.Shared.Models
 @using TraduxAI.Client.Services
 @inject IDocumentProcessingService DocumentService
+@using TraduxAI.Client.Components
 
 <h3>PDF To Text</h3>
 <div class="row">
 	<div class="col-md-6">
+
 		<FileUpload Accept=".pdf" OnFileSelected="HandlePdfSelected" />
 
 		@if (!string.IsNullOrEmpty(FileName))
@@ -17,15 +19,14 @@
 				</div>
 			</div>
 		}
-
-		<button class="btn btn-primary" @onclick="ProcessPdf" disabled="@(PdfBytes == null || IsProcessing)">
-			@if (IsProcessing)
-			{
-				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-
-			}
-
-		</button>
+		<input type="submit" class="btn btn-success" value="Execute pdf to text" onclick="@ProcessPdf" disabled="@(PdfBytes == null || IsProcessing)" />
+		@* <button class="btn btn-primary" @onclick="ProcessPdf" disabled="@(PdfBytes == null || IsProcessing)"> *@
+		@if (IsProcessing)
+		{
+			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+			<span>Processing...</span>
+		}
+		@* </button> *@
 	</div>
 
 	<div class="col-md-6">

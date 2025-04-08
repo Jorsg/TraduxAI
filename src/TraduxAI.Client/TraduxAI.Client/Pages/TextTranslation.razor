@@ -2,6 +2,7 @@
 @using TraduxAI.Shared.Models
 @using TraduxAI.Client.Services
 @inject IDocumentProcessingService DocumentService
+@inject IJSRuntime JSRuntime
 
 <h3>Text Translation</h3>
 <div class="row">
@@ -14,21 +15,22 @@
                     <option value="@lang.Code">@lang.Label</option>
                 }
             </select>
-        </div>
-        
+        </div>ss
+
         <div class="mb-3">
             <label class="form-label">Source Text</label>
             <textarea class="form-control" rows="10" @bind="SourceText"></textarea>
         </div>
-        
-        <button class="btn btn-primary" @onclick="TranslateText" disabled="@(string.IsNullOrEmpty(SourceText) || IsProcessing)">
+        <input type="submit" class="btn btn-success" value="Execute translate" onclick="@TranslateText" disabled="@(string.IsNullOrEmpty(SourceText) || IsProcessing)" />
+       @*  <button class="btn btn-primary" @onclick="TranslateText" disabled="@(string.IsNullOrEmpty(SourceText) || IsProcessing)"> *@
             @if (IsProcessing)
             {
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-               
-            }           
+                <span>Translating...</span>
+
+            }   
            
-        </button>
+       @*  </button> *@
     </div>
     
     <div class="col-md-6">
@@ -79,4 +81,6 @@
             IsProcessing = false;
         }
     }
+
+    
 }
