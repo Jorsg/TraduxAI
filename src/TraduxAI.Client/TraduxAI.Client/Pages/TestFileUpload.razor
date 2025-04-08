@@ -1,0 +1,22 @@
+﻿@page "/test-file-upload"
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Prueba de FileUpload</h3>
+
+<InputFile OnChange="HandleFileChanged" class="form-control" accept="image/*" />
+
+<p>@Message</p>
+
+@code {
+    private string Message = "Ningún archivo seleccionado";
+
+    private async Task HandleFileChanged(InputFileChangeEventArgs e)
+    {
+        if (e.FileCount > 0)
+        {
+            var file = e.File;
+            Message = $"Archivo seleccionado: {file.Name}";
+        }
+        await Task.CompletedTask;
+    }
+}

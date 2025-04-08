@@ -1,9 +1,57 @@
 ﻿@page "/"
+@attribute [Authorize]
 
-<PageTitle>Index</PageTitle>
+<PageTitle>AI DOCUMENT PROCESSOR</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container">
+	<div class="row justify-content-center m-5">
+		<div class="col-md-10">
+			<div class="jumbtron">
+				<h4 class="display-4"> AI DOCUMENT PROCESSOR</h4>
+				<p class="lead">
+					A powerful tool to extract text from images, PDFs, and translate content between languages ussing OpenAI's advanced AI capabilities
+				</p>
+				<hr class="my-4">
+				<p>
+					Choose on of our services below to get started:</p>
+			</div>
+			<div class="row mt-4">
+				<div class="col-md-4 mb-4">
+					<div class="card h-100">
+						<div class="card-body text-center">
+							<h5 class="card-title">Image To Text</h5>
+							<p class="card-text">Extract text from images using AI-powered OCR.</p>
+							<a href="image-to-text" class="btn btn-primary">Get Started</a>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col-md-4 mb-4">
+					<div class="card h-100 ">
+						<div class="card-body text-center">
+							<h5 class="card-title">PDF To Text</h5>
+							<p class="card-text">Convert PDF documents to editable text.</p>
+							<a href="pdf-to-text" class="btn btn-primary">Get Started</a>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col-md-4 mb-4">
+					<div class="card h-100 ">
+						<div class="card-body text-center">
+							<h5 class="card-title">Text Translation</h5>
+							<p class="card-text">Translate text between multiple languages.</p>
+							<a href="translate" class="btn btn-primary">Get Started</a>
+						</div>
+					</div>
 
-Welcome to your new app.
+				</div>
+			</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+		</div>
+	</div>
+</div>
