@@ -1,11 +1,25 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using TraduxAI.Client.Providers
+@using TraduxAI.Client.Services
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">TraduxAI.Client</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button>       
     </div>
 </div>
+<div class="">
+    <button class="btn btn-lg" @onclick="Logout">
+        <span class="oi oi-account-logout" aria-hidden="true"></span>Logout
+    </button>
+</div>
+
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
@@ -40,5 +54,15 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+        if (AuthStateProvider is JwtAuthenticationStateProvider customAuthProvider)
+        {
+            // Notificar al proveedor que el usuario ya no está autenticado
+            customAuthProvider.NotifyUserAuthentication(string.Empty);
+        }
+        Navigation.NavigateTo("/login");
     }
 }

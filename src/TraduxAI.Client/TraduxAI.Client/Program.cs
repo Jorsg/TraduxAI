@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Authorization;
+using System.Text.Json;
+using TraduxAI.Client.Providers;
 using TraduxAI.Client.Services;
 
 
@@ -9,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddTransient<IDocumentProcessingService, DocumentProcessingService>();
+
+builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
+builder.Services.AddSingleton(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+builder.Services.AddAuthorizationCore();
 
 //Configure httpClient for API Call
 builder.Services.AddHttpClient<DocumentProcessingService>(client =>
