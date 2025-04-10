@@ -4,8 +4,9 @@
 @using TraduxAI.Client.Services
 @inject IDocumentProcessingService DocumentService
 @using TraduxAI.Client.Components
+@inject IJSRuntime JSRuntime
 
-<h3>PDF To Text</h3>
+<h3 class="fw-bold">PDF To Text</h3>
 <div class="row">
 	<div class="col-md-6">
 
@@ -21,18 +22,25 @@
 			</div>
 		}
 		<input type="submit" class="btn btn-success" value="Execute pdf to text" onclick="@ProcessPdf" disabled="@(PdfBytes == null || IsProcessing)" />
-		@* <button class="btn btn-primary" @onclick="ProcessPdf" disabled="@(PdfBytes == null || IsProcessing)"> *@
+		
 		@if (IsProcessing)
 		{
 			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 			<span>Processing...</span>
 		}
-		@* </button> *@
+	
 	</div>
 
 	<div class="col-md-6">
-		<TextOutput Label="Extracted Text" Text="@ExtractedText" Rows="10" />
+		<div class="mb-3">
+			<label class="form-label fw-bold">Extracted Text</label>
+			<textarea class="form-control" rows="10" @bind="ExtractedText" readonly />
+		</div>
 	</div>
+	@if (!string.IsNullOrEmpty(ExtractedText))
+	{
+		<button class="btn btn-secondary" @onclick="CopyToClipboard">Copy to Clipboard</button>
+	}
 </div>
 @code {
 	private byte[]? PdfBytes;
@@ -69,5 +77,10 @@
 		{
 			IsProcessing = false;
 		}
+	}
+
+	private async Task CopyToClipboard()
+	{
+		await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", ExtractedText);
 	}
 }
