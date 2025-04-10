@@ -1,29 +1,36 @@
 ﻿@inject NavigationManager Navigation
 @inject IJSRuntime JS
+@inject AuthenticationStateProvider AuthProvider
 @using Microsoft.AspNetCore.Components.Authorization
 
-<p>Redirigiendo al inicio de sesión...</p>
 
 @code {
-    [CascadingParameter]
-    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+	private bool shouldRedirect = false;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender || AuthenticationStateTask is null)
-            return;
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
 
-        var authState = await AuthenticationStateTask;
-        var user = authState.User;
+		if (!user.Identity?.IsAuthenticated ?? true)
+		{
+			var currentUri = Navigation.ToBaseRelativePath(Navigation.Uri).ToLower();
 
-        if (!user.Identity?.IsAuthenticated ?? true)
-        {
-            var currentUri = Navigation.ToBaseRelativePath(Navigation.Uri).ToLower();
-            if (!currentUri.StartsWith("login"))
-            {
-                // Usa JavaScript para evitar el error de NavigationManager en prerendering
-                await JS.InvokeVoidAsync("window.location.replace", "/login");
-            }
-        }
-    }
+			if (!currentUri.StartsWith("login"))
+			{
+				// 🔁 Espera a que se complete el prerender y luego redirige
+				shouldRedirect = true;
+			}
+		}
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender && shouldRedirect)
+		{
+			await JS.InvokeVoidAsync("window.location.replace", "/login");
+		}
+	}
+
+
 }

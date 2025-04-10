@@ -28,13 +28,22 @@ namespace TraduxAI.Client.Services
 		}
 		public async Task<string?> GetTokenAsync()
 		{
-			// Check if the app is prerendering
-			if (_jsRuntime.GetType().FullName == "Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime")
+			//// Check if the app is prerendering
+			//if (_jsRuntime.GetType().FullName == "Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime")
+			//{
+			//	// Skip JavaScript interop during prerendering
+			//	return null;
+			//}
+			//return await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
+			try
 			{
-				// Skip JavaScript interop during prerendering
+				return await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
+			}
+			catch (InvalidOperationException ex)
+			{
+				Console.WriteLine($"[AuthService] JSInterop aún no está disponible (prerender): {ex.Message}");
 				return null;
 			}
-			return await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
 		}
 
 		public async Task<LoginResponse> LoginAsync(LoginRequest request)
@@ -63,7 +72,7 @@ namespace TraduxAI.Client.Services
 		public async Task SetTokenAsync(string token)
 		{
 			_token = token;
-			await _jsRuntime.InvokeAsync<string>("localStorage.setItem", "jwt_token", token);
+			await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "jwt_token", token);
 		}
 	}
 }
