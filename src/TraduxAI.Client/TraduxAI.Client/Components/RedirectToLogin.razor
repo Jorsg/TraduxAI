@@ -1,10 +1,29 @@
 ﻿@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@using Microsoft.AspNetCore.Components.Authorization
+
+<p>Redirigiendo al inicio de sesión...</p>
 
 @code {
-    protected override void OnInitialized()
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        // Redirige al usuario a la ruta /login y fuerza la recarga (true)
-        Navigation.NavigateTo("/login", true);
+        if (!firstRender || AuthenticationStateTask is null)
+            return;
+
+        var authState = await AuthenticationStateTask;
+        var user = authState.User;
+
+        if (!user.Identity?.IsAuthenticated ?? true)
+        {
+            var currentUri = Navigation.ToBaseRelativePath(Navigation.Uri).ToLower();
+            if (!currentUri.StartsWith("login"))
+            {
+                // Usa JavaScript para evitar el error de NavigationManager en prerendering
+                await JS.InvokeVoidAsync("window.location.replace", "/login");
+            }
+        }
     }
 }
-

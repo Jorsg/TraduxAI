@@ -4,6 +4,7 @@
 @using TraduxAI.Client.Services
 @using TraduxAI.Client.Components
 @inject IDocumentProcessingService DocumentService
+@inject IJSRuntime JSRuntime
 
 <h3>ImageToText</h3>
 
@@ -17,20 +18,29 @@
 				<img src="@PreviewUrl" class="img-fluid border rounded" alt="Selected image" />
 			</div>
 		}
-		<input type="submit" class="btn btn-success" value="Execute imag to text" onclick="@ProcessImage" disabled="@(SelectedFile == null || IsProcessing)" />
-		@*   <button class="btn btn-primary" @onclick="ProcessImage" disabled="@(SelectedFile == null || IsProcessing)"> *@
+		<input type="submit" class="btn btn-success" value="Execute imag to text" onclick="@ProcessImage" disabled="@(SelectedFile == null || IsProcessing)" />		
 		@if (IsProcessing)
 		{
 			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 			<span>Processing...</span>
 		}
-		
-		@* </button> *@
+		else
+		{
+			<span>Extract Text</span>
+		}
+
 	</div>
 
 	<div class="col-md-6">
-		<TextOutput Label="Extracted Text" Text="@ExtractedText" Rows="10" />
+		<div class="mb-3">
+			<label class="form-label">Extracted Text</label>
+		<textarea class="form-control" rows="10" @bind="ExtractedText" readonly />
+		</div>
 	</div>
+	@if (!string.IsNullOrEmpty(ExtractedText))
+	{
+		<button class="btn btn-secondary" @onclick="CopyToClipboard">Copy to Clipboard</button>
+	}
 </div>
 
 @code {
@@ -73,5 +83,10 @@
 		{
 			IsProcessing = false;
 		}
+	}
+
+	private async Task CopyToClipboard()
+	{
+		await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", ExtractedText);
 	}
 }
