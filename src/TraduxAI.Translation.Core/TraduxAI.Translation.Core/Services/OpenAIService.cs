@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Canvas.Parser.Listener;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using TraduxAI.Shared.Errors;
 using TraduxAI.Shared.Models;
 using TraduxAI.Translation.Core.Interfaces;
@@ -43,7 +42,15 @@ namespace TraduxAI.Translation.Core.Services
 					new Message
 					{
 						Role = "user",
-						ContentText = prompt
+						Content = new List<MessageContent>
+						{
+							new MessageContent
+							{
+								Type = "text",
+								Text = prompt
+							}
+							
+						}
 					}
 				},
 				Temperature = 0.7,
@@ -93,13 +100,41 @@ namespace TraduxAI.Translation.Core.Services
 
 		public async Task<string> PdfToTextAsync(string base64Pdf)
 		{
-			// In a real implementation, you would use a PDF library to extract text
-			// and then possibly use OpenAI to clean up or enhance the extraction
+			// Si el Base64 contiene encabezado, lo eliminamos
+			if (base64Pdf.StartsWith("data:application/pdf;base64,"))
+			{
+				base64Pdf = base64Pdf.Substring("data:application/pdf;base64,".Length);
+			}
 
-			// This is a placeholder implementation using GPT-4
-			var promptText = "This is a PDF document. Please extract all text content from it and format it properly.";
+			byte[] pdfBytes;
 
-			return await GetCompletionAsync(promptText);
+			try
+			{
+				pdfBytes = Convert.FromBase64String(base64Pdf);
+			}
+			catch (FormatException)
+			{
+				throw new ArgumentException("El string Base64 no es válido.");
+			}
+
+			using var pdfStream = new MemoryStream(pdfBytes);
+			using var reader = new PdfReader(pdfStream);
+			using var pdfDoc = new PdfDocument(reader);
+
+			var extractedText = new StringBuilder();
+
+			for (int i = 1; i <= pdfDoc.GetNumberOfPages(); i++)
+			{
+				var page = pdfDoc.GetPage(i);
+				// Usa una NUEVA estrategia por página
+				var strategy = new LocationTextExtractionStrategy();
+				string text = PdfTextExtractor.GetTextFromPage(page, strategy);
+				extractedText.AppendLine(text);
+			}
+
+			var prompt = $"Please clean and structure the following extracted text from a PDF:\n\n{extractedText}";
+
+			return await GetCompletionAsync(prompt);
 		}
 
 		public async Task<string> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage)

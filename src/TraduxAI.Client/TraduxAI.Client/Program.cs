@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 using System.Text.Json;
 using TraduxAI.Client.Providers;
 using TraduxAI.Client.Services;
@@ -15,12 +16,13 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 builder.Services.AddSingleton(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
+
 builder.Services.AddAuthorizationCore();
 
 //Configure httpClient for API Call
-builder.Services.AddHttpClient<DocumentProcessingService>(client =>
+builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7001/");
+    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7220/");
 });
 
 var app = builder.Build();

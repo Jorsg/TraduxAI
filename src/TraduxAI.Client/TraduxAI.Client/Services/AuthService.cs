@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using Microsoft.JSInterop;
+using System.Text.Json;
+using System.Threading.Tasks;
 using TraduxAI.Client.Models;
 
 namespace TraduxAI.Client.Services
@@ -7,39 +9,61 @@ namespace TraduxAI.Client.Services
 	{
 		Task<LoginResponse> LoginAsync(LoginRequest request);
 		Task LogoutAsync();
-		string? GetToken(); // Para consultar el token almacenado
+		Task<string?> GetTokenAsync(); // Para consultar el token almacenado
+		Task SetTokenAsync(string token); // Para establecer el token
+
 	}
 	public class AuthService : IAuthService
 	{
-			private readonly HttpClient _httpClient;
-			private readonly JsonSerializerOptions _jsonOptions;
-			private string? _token;
+		private readonly HttpClient _httpClient;
+		private readonly JsonSerializerOptions _jsonOptions;
+		private readonly IJSRuntime _jsRuntime;
+		private string? _token;
 
-			public AuthService(HttpClient httpClient, JsonSerializerOptions jsonOptions)
+		public AuthService(HttpClient httpClient, JsonSerializerOptions jsonOptions, IJSRuntime jSRuntime)
+		{
+			_httpClient = httpClient;
+			_jsonOptions = jsonOptions ?? new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+			_jsRuntime = jSRuntime ?? throw new ArgumentNullException(nameof(jSRuntime));
+		}
+		public async Task<string?> GetTokenAsync()
+		{
+			// Check if the app is prerendering
+			if (_jsRuntime.GetType().FullName == "Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime")
 			{
-				_httpClient = httpClient;
-				_jsonOptions = jsonOptions ?? new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+				// Skip JavaScript interop during prerendering
+				return null;
 			}
-			public string? GetToken() => _token;
+			return await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
+		}
 
-
-			public async Task<LoginResponse> LoginAsync(LoginRequest request)
+		public async Task<LoginResponse> LoginAsync(LoginRequest request)
+		{
+			var response = await _httpClient.PostAsJsonAsync("api/auth/login", request);
+			if (response.IsSuccessStatusCode)
 			{
-				var response = await _httpClient.PostAsJsonAsync("api/auth/login", request);
-				if(response.IsSuccessStatusCode)
-				{
-					var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>(_jsonOptions)
-						               ?? throw new Exception("Error deserializing login response");
-				}
-
+				var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>(_jsonOptions)
+								   ?? throw new Exception("Error deserializing login response");
+				return loginResponse;
+			}
+			else
+			{
 				var error = await response.Content.ReadAsStringAsync();
 				throw new Exception($"Error during login: {response.StatusCode} - {error}");
 			}
 
-			public Task LogoutAsync()
-			{
-				_token = null;
-				return Task.CompletedTask;
-			}
+		}
+
+		public async Task LogoutAsync()
+		{
+			_token = null;
+			await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "jwt_token");
+		}
+
+		public async Task SetTokenAsync(string token)
+		{
+			_token = token;
+			await _jsRuntime.InvokeAsync<string>("localStorage.setItem", "jwt_token", token);
+		}
 	}
 }

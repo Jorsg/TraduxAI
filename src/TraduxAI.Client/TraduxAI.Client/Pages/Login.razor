@@ -9,65 +9,65 @@
 <h3>Inicio de Sesión</h3>
 
 <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+	<DataAnnotationsValidator />
+	<ValidationSummary />
 
-    <div class="mb-3">
-        <label class="form-label">Usuario:</label>
-        <InputText class="form-control" @bind-Value="loginModel.Email" />
-    </div>
+	<div class="mb-3">
+		<label class="form-label">Usuario:</label>
+		<InputText class="form-control" @bind-Value="loginModel.Email" />
+	</div>
 
-    <div class="mb-3">
-        <label class="form-label">Contraseña:</label>
-        <InputText type="password" class="form-control" @bind-Value="loginModel.PasswordHash" />
-    </div>
+	<div class="mb-3">
+		<label class="form-label">Contraseña:</label>
+		<InputText type="password" class="form-control" @bind-Value="loginModel.Password" />
+	</div>
 
-    <button type="submit" class="btn btn-primary" disabled="@isProcessing">
-        @if (isProcessing)
-        {
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <span> Iniciando...</span>
-        }
-        else
-        {
-            <span>Entrar</span>
-        }
-    </button>
+	<button type="submit" class="btn btn-primary" disabled="@isProcessing">
+		@if (isProcessing)
+		{
+			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+			<span> Iniciando...</span>
+		}
+		else
+		{
+			<span>Entrar</span>
+		}
+	</button>
 </EditForm>
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {
-    <div class="alert alert-danger mt-3">@errorMessage</div>
+	<div class="alert alert-danger mt-3">@errorMessage</div>
 }
 
 @code {
-    private LoginRequest loginModel = new();
-    private bool isProcessing = false;
-    private string errorMessage = string.Empty;
+	private LoginRequest loginModel = new();
+	private bool isProcessing = false;
+	private string errorMessage = string.Empty;
 
-    private async Task HandleLogin()
-    {
-        isProcessing = true;
-        errorMessage = string.Empty;
+	private async Task HandleLogin()
+	{
+		isProcessing = true;
+		errorMessage = string.Empty;
 
-        try
-        {
-            var response = await AuthService.LoginAsync(loginModel);
-            // Actualizamos el estado de autenticación
-            if (AuthStateProvider is JwtAuthenticationStateProvider customAuthProvider)
-            {
-                customAuthProvider.NotifyUserAuthentication(response.Token);
-            }
-            // Redirigimos a la página de inicio u otra protegida
-            Navigation.NavigateTo("/");
-        }
-        catch (Exception ex)
-        {
-            errorMessage = $"Error al iniciar sesión: {ex.Message}";
-        }
-        finally
-        {
-            isProcessing = false;
-        }
-    }
+		try
+		{
+			var response = await AuthService.LoginAsync(loginModel);
+			// Actualizamos el estado de autenticación
+			if (AuthStateProvider is JwtAuthenticationStateProvider customAuthProvider)
+			{
+				await customAuthProvider.NotifyUserAuthentication(response.Token);
+			}
+			// Redirigimos a la página de inicio u otra protegida
+			Navigation.NavigateTo("/", forceLoad: true);
+		}
+		catch (Exception ex)
+		{
+			errorMessage = $"Error al iniciar sesión: {ex.Message}";
+		}
+		finally
+		{
+			isProcessing = false;
+		}
+	}
 }

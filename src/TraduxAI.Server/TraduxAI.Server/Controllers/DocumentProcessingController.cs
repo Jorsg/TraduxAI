@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TraduxAI.Shared.Models;
 using TraduxAI.Translation.Core.Interfaces;
@@ -7,6 +8,7 @@ namespace TraduxAI.Server.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class DocumentProcessingController : ControllerBase
 	{
 		private readonly IDocumentProcessor _documentProcessor;

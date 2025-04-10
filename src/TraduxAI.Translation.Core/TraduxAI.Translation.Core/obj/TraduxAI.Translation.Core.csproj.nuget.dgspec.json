@@ -171,9 +171,9 @@
               "target": "Package",
               "version": "[5.2.0, )"
             },
-            "iTextSharp": {
+            "itext7": {
               "target": "Package",
-              "version": "[5.5.13.4, )"
+              "version": "[9.1.0, )"
             }
           },
           "imports": [

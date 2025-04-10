@@ -11,9 +11,7 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\TraduxAI.Server.dll
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\TraduxAI.Server.pdb
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\BCrypt.Net-Next.dll
-D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\DnsClient.dll
-D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itextsharp.dll
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -65,3 +63,17 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.pdb
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.genruntimeconfig.cache
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\ref\TraduxAI.Server.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.barcodes.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.bouncy-castle-connector.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.forms.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.io.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.kernel.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.layout.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.pdfa.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.pdfua.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.sign.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.styledxmlparser.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.svg.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\itext.commons.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\Microsoft.DotNet.PlatformAbstractions.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
