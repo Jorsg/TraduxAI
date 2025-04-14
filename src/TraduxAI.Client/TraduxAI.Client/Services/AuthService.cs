@@ -11,6 +11,7 @@ namespace TraduxAI.Client.Services
 		Task LogoutAsync();
 		Task<string?> GetTokenAsync(); // Para consultar el token almacenado
 		Task SetTokenAsync(string token); // Para establecer el token
+		string? GetCachedToken(); // Para obtener el token almacenado en caché
 
 	}
 	public class AuthService : IAuthService
@@ -26,18 +27,16 @@ namespace TraduxAI.Client.Services
 			_jsonOptions = jsonOptions ?? new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 			_jsRuntime = jSRuntime ?? throw new ArgumentNullException(nameof(jSRuntime));
 		}
+
+		public string? GetCachedToken() => _token;
+
 		public async Task<string?> GetTokenAsync()
-		{
-			//// Check if the app is prerendering
-			//if (_jsRuntime.GetType().FullName == "Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime")
-			//{
-			//	// Skip JavaScript interop during prerendering
-			//	return null;
-			//}
-			//return await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
+		{			
 			try
 			{
-				return await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
+				var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
+				return token;
+
 			}
 			catch (InvalidOperationException ex)
 			{
@@ -73,6 +72,11 @@ namespace TraduxAI.Client.Services
 		{
 			_token = token;
 			await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "jwt_token", token);
+		}
+
+		public void SetCacheToken(string token)
+		{
+			_token = token;
 		}
 	}
 }

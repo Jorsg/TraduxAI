@@ -16,7 +16,6 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 builder.Services.AddSingleton(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
-
 builder.Services.AddAuthorizationCore();
 
 //Configure httpClient for API Call
@@ -24,7 +23,10 @@ builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7220/");
 });
-
+builder.Services.AddHttpClient<IDocumentProcessingService, DocumentProcessingService>(client =>
+{
+	client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7220/");
+});
 var app = builder.Build();
 
 
