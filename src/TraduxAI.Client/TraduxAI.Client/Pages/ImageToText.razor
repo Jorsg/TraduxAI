@@ -5,6 +5,7 @@
 @using TraduxAI.Client.Components
 @inject IDocumentProcessingService DocumentService
 @inject IJSRuntime JSRuntime
+@inject IAuthService AuthService
 
 <h3 class="fw-bold">ImageToText</h3>
 
@@ -29,7 +30,7 @@
 	<div class="col-md-6">
 		<div class="mb-3">
 			<label class="form-label fw-bold">Extracted Text</label>
-		<textarea class="form-control" rows="10" @bind="ExtractedText" readonly />
+			<textarea class="form-control" rows="10" @bind="ExtractedText" readonly />
 		</div>
 	</div>
 	@if (!string.IsNullOrEmpty(ExtractedText))
@@ -62,12 +63,13 @@
 		IsProcessing = true;
 		try
 		{
+			var token = await WaitForToken();
 			using var stream = SelectedFile.OpenReadStream(10 * 1024 * 1024);
 			using var ms = new MemoryStream();
 			await stream.CopyToAsync(ms);
 			var imageBytes = ms.ToArray();
 
-			var result = await DocumentService.ProcessImageToTextAsync(imageBytes);
+			var result = await DocumentService.ProcessImageToTextAsync(imageBytes, token);
 			ExtractedText = result.ProcessedContent;
 		}
 		catch (Exception ex)
@@ -83,5 +85,19 @@
 	private async Task CopyToClipboard()
 	{
 		await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", ExtractedText);
+	}
+
+	private async Task<string> WaitForToken()
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			await Task.Delay(1000);
+			var token = await AuthService.GetTokenAsync();
+			if (!string.IsNullOrEmpty(token)) return token;
+
+			await Task.Delay(1000);
+		}
+
+		throw new Exception("Token Jwt No disponible despues de esperar");
 	}
 }

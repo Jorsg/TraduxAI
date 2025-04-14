@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using TraduxAI.Shared.Models;
@@ -9,9 +10,9 @@ namespace TraduxAI.Client.Services
 {
 	public interface IDocumentProcessingService
 	{
-		Task<DocumentProcessResult> ProcessImageToTextAsync(byte[] imageData);
-		Task<DocumentProcessResult> ProcessPdfToTextAsync(byte[] pdfData);
-		Task<DocumentProcessResult> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage);
+		Task<DocumentProcessResult> ProcessImageToTextAsync(byte[] imageData, string token);
+		Task<DocumentProcessResult> ProcessPdfToTextAsync(byte[] pdfData, string token);
+		Task<DocumentProcessResult> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage, string token);
 	}
 	public class DocumentProcessingService : IDocumentProcessingService
 	{
@@ -19,7 +20,7 @@ namespace TraduxAI.Client.Services
 
 		private readonly HttpClient _httpClient;
 		private readonly JsonSerializerOptions _jsonOptions;
-		
+
 		public DocumentProcessingService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
@@ -30,22 +31,42 @@ namespace TraduxAI.Client.Services
 			};
 		}
 
-        public async Task<DocumentProcessResult> ProcessImageToTextAsync(byte[] imageData)
+		public async Task<DocumentProcessResult> ProcessImageToTextAsync(byte[] imageData, string token)
 		{
 			var base64Image = Convert.ToBase64String(imageData);
-			var payload = JsonSerializer.Serialize(new { base64Image }, _jsonOptions);
-			var content = new StringContent(payload, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsJsonAsync("api/documentprocessing/ocr/image",content);
-			return await HandleResponseAsync<DocumentProcessResult>(response);
+			var payload = JsonSerializer.Serialize(new { base64Content = base64Image }, _jsonOptions);
 
+			var request = new HttpRequestMessage(HttpMethod.Post, "api/documentprocessing/ocr/image")
+			{
+				Content = new StringContent(payload, Encoding.UTF8, "application/json")
+			};
+
+			// ✅ add token to header Authorization
+			if (!string.IsNullOrEmpty(token))
+			{
+				request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			}
+
+			var response = await _httpClient.SendAsync(request);
+			return await HandleResponseAsync<DocumentProcessResult>(response);
 		}
 
-		public async Task<DocumentProcessResult> ProcessPdfToTextAsync(byte[] pdfData)
+		public async Task<DocumentProcessResult> ProcessPdfToTextAsync(byte[] pdfData, string token)
 		{
 			var base65Pdf = Convert.ToBase64String(pdfData);
-			var payload = JsonSerializer.Serialize(new { base65Pdf }, _jsonOptions);
-			var content = new StringContent(payload, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsJsonAsync("api/documentprocessing/ocr/pdf", content);
+			var payload = JsonSerializer.Serialize(new {base64Content = base65Pdf }, _jsonOptions);
+			
+			var request = new HttpRequestMessage(HttpMethod.Post, "api/documentprocessing/ocr/pdf")
+			{
+				Content = new StringContent(payload, Encoding.UTF8, "application/json")
+			};
+
+			//✅ add token to header Authorization
+			if (!string.IsNullOrEmpty(token))
+			{
+				request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			}
+			var response = await _httpClient.SendAsync(request);
 			return await HandleResponseAsync<DocumentProcessResult>(response);
 		}
 
@@ -60,23 +81,21 @@ namespace TraduxAI.Client.Services
 			throw new Exception($"API Error: {response.StatusCode}, Content: {errorContent}"); // Handle error response
 		}
 
-		public async Task<DocumentProcessResult> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage)
+		public async Task<DocumentProcessResult> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage, string token)
 		{
-			var request = new
+			var request = new HttpRequestMessage(HttpMethod.Post, "api/documentprocessing/translate")
 			{
-				Text = text,
-				SourceLanguage = sourceLanguage,
-				TargetLanguage = targetLanguage
+				Content = new StringContent(JsonSerializer.Serialize(new { text, sourceLanguage, targetLanguage }, _jsonOptions), Encoding.UTF8, "application/json")
 			};
 
-			var payload = JsonSerializer.Serialize(request, _jsonOptions);
-			var content = new StringContent(payload, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsJsonAsync("api/documentprocessing/translate", content);
+			// ✅ add token to header Authorization
+			if (!string.IsNullOrEmpty(token))
+			{
+				request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			}
+
+			var response = await _httpClient.SendAsync(request);
 			return await HandleResponseAsync<DocumentProcessResult>(response);
 		}
-
-
-
-
 	}
 }

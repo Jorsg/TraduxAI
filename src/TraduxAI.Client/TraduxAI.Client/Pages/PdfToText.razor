@@ -5,6 +5,7 @@
 @inject IDocumentProcessingService DocumentService
 @using TraduxAI.Client.Components
 @inject IJSRuntime JSRuntime
+@inject IAuthService AuthService
 
 <h3 class="fw-bold">PDF To Text</h3>
 <div class="row">
@@ -66,7 +67,8 @@
 		IsProcessing = true;
 		try
 		{
-			var result = await DocumentService.ProcessPdfToTextAsync(PdfBytes);
+			var token = await WaitForToken();
+			var result = await DocumentService.ProcessPdfToTextAsync(PdfBytes, token);
 			ExtractedText = result.ProcessedContent;
 		}
 		catch (Exception ex)
@@ -82,5 +84,19 @@
 	private async Task CopyToClipboard()
 	{
 		await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", ExtractedText);
+	}
+
+	private async Task<string> WaitForToken()
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			await Task.Delay(1000);
+			var token = await AuthService.GetTokenAsync();
+			if (!string.IsNullOrEmpty(token)) return token;
+
+			await Task.Delay(1000);
+		}
+
+		throw new Exception("Token Jwt No disponible despues de esperar");
 	}
 }

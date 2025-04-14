@@ -4,6 +4,10 @@
 @using TraduxAI.Client.Services
 @inject IDocumentProcessingService DocumentService
 @inject IJSRuntime JSRuntime
+@inject IAuthService AuthService
+@using DocumentFormat.OpenXml;
+@using DocumentFormat.OpenXml.Packaging;
+@using DocumentFormat.OpenXml.Wordprocessing
 
 <h3 class="fw-bold">Text Translation</h3>
 <div class="row">
@@ -60,6 +64,8 @@
 	@if (!string.IsNullOrEmpty(TranslatedText))
 	{
 		<button class="btn btn-secondary" @onclick="CopyToClipboard">Copy to Clipboard</button>
+
+		<input type="submit" class="btn btn-success" value="Export to word" onclick="@ExportToWord" disabled="@(string.IsNullOrEmpty(TranslatedText))" />
 	}
 </div>
 @code {
@@ -85,8 +91,9 @@
 		IsProcessing = true;
 		try
 		{
-			var promtsSourceTest = $"{Prompt}{SourceLanguage}";
-			var result = await DocumentService.TranslateTextAsync(promtsSourceTest, SourceLanguage, TargetLanguage);
+			var token = await WaitForToken();
+			var promtsSourceTest = $"{Prompt} {SourceText}";
+			var result = await DocumentService.TranslateTextAsync(promtsSourceTest, SourceLanguage, TargetLanguage, token);
 			TranslatedText = result.ProcessedContent;
 		}
 		catch (Exception ex)
@@ -102,6 +109,69 @@
 	private async Task CopyToClipboard()
 	{
 		await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", TranslatedText);
+	}
+
+	private async Task<string> WaitForToken()
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			await Task.Delay(1000);
+			var token = await AuthService.GetTokenAsync();
+			if (!string.IsNullOrEmpty(token)) return token;
+
+			await Task.Delay(1000);
+		}
+
+		throw new Exception("Token Jwt No disponible despues de esperar");
+	}
+
+	public async Task ExportToWord(string contenido, string nombreArchivo = "documento.docx")
+	{
+		// Crear el archivo en memoria
+		using (MemoryStream ms = new MemoryStream())
+		{
+			// Crear el documento Word
+			using (WordprocessingDocument wordDoc = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+			{
+				// Añadir una parte principal del documento
+				MainDocumentPart mainPart = wordDoc.AddMainDocumentPart();
+				mainPart.Document = new Document();
+				Body body = mainPart.Document.AppendChild(new Body());
+
+				// Procesar el contenido y crear párrafos con formato
+				string[] parrafos = contenido.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+				foreach (string parrafoTexto in parrafos)
+				{
+					if (string.IsNullOrWhiteSpace(parrafoTexto))
+						continue;
+
+					Paragraph parrafo = new Paragraph();
+					Run run = new Run();
+					Text texto = new Text(parrafoTexto);
+
+					run.AppendChild(texto);
+					parrafo.AppendChild(run);
+					body.AppendChild(parrafo);
+				}
+
+				// Guardar el documento
+				mainPart.Document.Save();
+			}
+
+			// Descargar el archivo
+			await DescargarArchivo(ms.ToArray(), nombreArchivo, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+		}
+	}
+
+	// Método para descargar el archivo usando JavaScript
+	private async Task DescargarArchivo(byte[] contenido, string nombreArchivo, string contentType)
+	{
+		// Convertir el array de bytes a base64
+		string base64 = Convert.ToBase64String(contenido);
+
+		// Usar JSRuntime para descargar el archivo
+		await JSRuntime.InvokeVoidAsync("downloadFileFromStream", nombreArchivo, contentType, base64);
 	}
 
 
