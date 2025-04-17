@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using TraduxAI.Client.Services;
 
 namespace TraduxAI.Client.Providers
