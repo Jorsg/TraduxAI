@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using TraduxAI.Shared.Models;
+using TraduxAI.Client.Models;
 
 
 

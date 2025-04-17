@@ -1,0 +1,22 @@
+services:
+
+  mongodb:
+    image: mongo
+
+  traduxai.client:
+    image: ${DOCKER_REGISTRY-}traduxaiclient
+    build:
+      context: .
+      dockerfile: src/TraduxAI.Client/TraduxAI.Client/Dockerfile
+  traduxai.server:
+   image: ${DOCKER_REGISTRY-}traduxaiserver
+   build:
+      context: .
+      dockerfile: src/TraduxAI.Server/TraduxAI.Server/Dockerfile
+   depends_on:
+      - mongodb
+   environment:
+      - MONGO_CONNECTION_STRING=mongodb://mongodb:27017/traduxai
+      - ASPNETCORE_ENVIRONMENT=Development
+   ports:
+      - "5000:80"
