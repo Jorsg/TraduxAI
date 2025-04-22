@@ -8,7 +8,7 @@
 *.sln.docstates
 *.userprefs
 *secret.json
-
+docker-compose.override.yml
 # User-specific files
 *.rsuser
 
@@ -81,6 +81,8 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.env
+
 
 # Chutzpah Test files
 _Chutzpah*
@@ -343,6 +345,7 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+# Build results
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

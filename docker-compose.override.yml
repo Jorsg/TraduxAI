@@ -1,14 +1,40 @@
 services:
-  traduxai.client:
+ mongodb:
+    container_name: mongodb
+    restart: always
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db 
+
+  
+
+ traduxai.server:
+    container_name: traduxai.server
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      - "MongoDbSettings:ConnectionString: mongodb://127.0.0.1:27017"
+      - JWT__Key={JWT__Key}
     ports:
-      - "8080"
-      - "8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - "5001:80"
+    depends_on:
+      - mongodb
+    env_file:
+      - .env
+
+ traduxai.client:
+    container_name: traduxai.client
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      
+    ports:
+      - "5000:80"
+    depends_on:
+      - traduxai.server
+    env_file:
+      - .env
+    
+volumes:
+    mongodb_data:
+        driver: local
