@@ -18,7 +18,8 @@ builder.Services.AddOpenApi();
 
 //Bind JwtSettings
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
-var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+var key_Api = builder.Configuration["Jwt:key"];
+var key = Encoding.ASCII.GetBytes(key_Api);
 
 
 // Register services

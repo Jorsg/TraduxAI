@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TraduxAI.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d38a0a06f11bdff7a2a27a4a9b0ad139c5db2ffe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bf44440d7fc7b679491120212f69b9accad3f17f")]
 [assembly: System.Reflection.AssemblyProductAttribute("TraduxAI.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TraduxAI.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
