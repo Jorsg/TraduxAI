@@ -8,7 +8,7 @@ namespace TraduxAI.Shared.Models
 {
 	public class JwtSettings
 	{
-		public string Secret { get; set; }
+		public string Secret { get; }
 		public string Issuer { get; set; }
 		public string Audience { get; set; }
 	}
