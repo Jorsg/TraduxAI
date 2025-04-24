@@ -9,8 +9,10 @@
 @using DocumentFormat.OpenXml.Packaging;
 @using DocumentFormat.OpenXml.Wordprocessing
 
-<h3 class="fw-bold">Text Translation</h3>
+<h3 class="fw-bold mb-4">Text Translation</h3>
+
 <div class="row">
+	<!-- Columna izquierda: Entrada -->
 	<div class="col-md-6">
 		<div class="mb-3">
 			<label class="form-label fw-bold">Source Language</label>
@@ -24,25 +26,34 @@
 
 		<div class="mb-3">
 			<label class="form-label fw-bold">Source Text</label>
-			<textarea class="form-control" rows="10" @bind="SourceText"></textarea>
+			<textarea class="form-control" rows="8" @bind="SourceText" placeholder="Enter text to translate..."></textarea>
 		</div>
-		<!-- Nuevo campo Prompt -->
+
 		<div class="mb-3">
 			<label class="form-label fw-bold">Prompt</label>
-			<input class="form-control" type="text" placeholder="Enter a prompt" @bind="Prompt" />
+			<input class="form-control" type="text" placeholder="Enter a prompt (optional)" @bind="Prompt" />
 		</div>
-		<input type="submit" class="btn btn-success" value="Execute translate" onclick="@TranslateText" disabled="@(string.IsNullOrEmpty(SourceText) || IsProcessing)" />
 
-		@if (IsProcessing)
-		{
-			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-			<span>Translating...</span>
+		<div class="d-flex align-items-center gap-3">
+			<button class="btn btn-success" @onclick="TranslateText" disabled="@(!CanExecute || IsProcessing)">
+				<i class="bi bi-translate"></i> Translate
+			</button>
 
-		}
+			<button class="btn btn-danger" @onclick="ClearPage" disabled="@(!CanClear)">
+				Clear Page
+			</button>
 
-
+			@if (IsProcessing)
+			{
+				<div class="d-flex align-items-center">
+					<div class="spinner-border spinner-border-sm text-primary me-2" role="status" aria-hidden="true"></div>
+					<span class="text-muted">Translating...</span>
+				</div>
+			}
+		</div>
 	</div>
 
+	<!-- Columna derecha: Salida -->
 	<div class="col-md-6">
 		<div class="mb-3">
 			<label class="form-label fw-bold">Target Language</label>
@@ -54,20 +65,25 @@
 			</select>
 		</div>
 
-		<div class="">
-			<div class="mb-3">
-				<label class="form-label fw-bold">Translate Text</label>
-				<textarea class="form-control" rows="10" @bind="TranslatedText" readonly />
-			</div>
+		<div class="mb-3">
+			<label class="form-label fw-bold">Translated Text</label>
+			<textarea class="form-control" rows="8" @bind="TranslatedText" readonly placeholder="The translated text will appear here."></textarea>
 		</div>
-	</div>
-	@if (!string.IsNullOrEmpty(TranslatedText))
-	{
-		<button class="btn btn-secondary" @onclick="CopyToClipboard">Copy to Clipboard</button>
 
-		<input type="submit" class="btn btn-success" value="Export to word" onclick="@ExportToWord" disabled="@(string.IsNullOrEmpty(TranslatedText))" />
-	}
+		@if (!string.IsNullOrEmpty(TranslatedText))
+		{
+			<div class="d-flex gap-2">
+				<button class="btn btn-secondary" @onclick="CopyToClipboard">
+					<i class="bi bi-clipboard"></i> Copy
+				</button>
+				<button class="btn btn-primary" @onclick="ExportarDocumento">
+					<i class="bi bi-file-earmark-word"></i> Export to Word
+				</button>
+			</div>
+		}
+	</div>
 </div>
+
 @code {
 	private string SourceText = string.Empty;
 	private string TranslatedText = string.Empty;
@@ -75,6 +91,9 @@
 	private string TargetLanguage = "en";
 	private bool IsProcessing = false;
 	private string Prompt = string.Empty;
+	private bool CanExecute => SourceText != null && !IsProcessing;
+	private bool CanClear => !string.IsNullOrEmpty(TranslatedText) || !string.IsNullOrEmpty(Prompt);
+
 
 	private List<(string Code, string Label)> Languages = new()
 	{
@@ -82,7 +101,6 @@
 		("en", "English"),
 		("es", "Spanish"),
 		("fr", "French"),
-
 	};
 
 	private async Task TranslateText()
@@ -111,6 +129,13 @@
 		await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", TranslatedText);
 	}
 
+	private void ClearPage()
+	{
+		SourceText = null;
+		Prompt = null;
+		TranslatedText = string.Empty;
+	}
+
 	private async Task<string> WaitForToken()
 	{
 		for (int i = 0; i < 10; i++)
@@ -123,6 +148,20 @@
 		}
 
 		throw new Exception("Token Jwt No disponible despues de esperar");
+	}
+
+	private async Task ExportarDocumento()
+	{
+		if (string.IsNullOrEmpty(TranslatedText))
+			return;
+		try
+		{
+			await ExportToWord(TranslatedText);
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error exporting document: {ex.Message}");
+		}
 	}
 
 	public async Task ExportToWord(string contenido, string nombreArchivo = "documento.docx")
@@ -171,7 +210,7 @@
 		string base64 = Convert.ToBase64String(contenido);
 
 		// Usar JSRuntime para descargar el archivo
-		await JSRuntime.InvokeVoidAsync("downloadFileFromStream", nombreArchivo, contentType, base64);
+		await JSRuntime.InvokeVoidAsync("descargarArchivo", base64, nombreArchivo, contentType);
 	}
 
 

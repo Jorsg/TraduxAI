@@ -16,19 +16,21 @@ namespace TraduxAI.Translation.Core.Services
 		private readonly HttpClient _httpClient;
 		private readonly IConfiguration _configuration;
 		private readonly string? _apiKey;
+		private readonly string? _baseUrl;
 
 		public OpenAIService(HttpClient httpClient, IConfiguration configuration)
 		{
 			_httpClient = httpClient;
 			_configuration = configuration;
 			_apiKey = _configuration["OpenAI:ApiKey"];
+			_baseUrl = _configuration["OpenAIUrl:BaseUrl"];
 
 			if (string.IsNullOrEmpty(_apiKey))
 			{
 				throw new ApiException("OpenAI API key is not configured", "configuration_error", 500);
 			}
 
-			_httpClient.BaseAddress = new Uri("https://api.openai.com/");
+			_httpClient.BaseAddress = new Uri(_baseUrl);
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
 		}
 

@@ -1,5 +1,8 @@
 ﻿@page "/pdf-to-text"
 @attribute [Authorize]
+@using DocumentFormat.OpenXml
+@using DocumentFormat.OpenXml.Packaging
+@using DocumentFormat.OpenXml.Wordprocessing
 @using TraduxAI.Client.Models
 @using TraduxAI.Client.Services
 @inject IDocumentProcessingService DocumentService
@@ -8,46 +11,65 @@
 @inject IAuthService AuthService
 
 <h3 class="fw-bold">PDF To Text</h3>
+
 <div class="row">
 	<div class="col-md-6">
-
 		<FileUpload Accept=".pdf" OnFileSelected="HandlePdfSelected" />
 
 		@if (!string.IsNullOrEmpty(FileName))
 		{
 			<div class="mb-3">
-				<div class="card p-3">
+				<div class="card p-3 d-flex align-items-center">
 					<i class="bi bi-file-pdf" style="font-size: 2rem;"></i>
 					<p class="mb-0">@FileName</p>
 				</div>
 			</div>
 		}
-		<input type="submit" class="btn btn-success" value="Execute pdf to text" onclick="@ProcessPdf" disabled="@(PdfBytes == null || IsProcessing)" />
-		
+
+		<button class="btn btn-success me-2" @onclick="ProcessPdf" disabled="@(!CanExecute)">
+			Execute PDF to Text
+		</button>
+
+		<button class="btn btn-danger" @onclick="ClearPage" disabled="@(!CanClear)">
+			Clear Page
+		</button>
+
 		@if (IsProcessing)
 		{
-			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-			<span>Processing...</span>
+			<div class="mt-2">
+				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+				<span>Processing...</span>
+			</div>
 		}
-	
 	</div>
 
 	<div class="col-md-6">
 		<div class="mb-3">
 			<label class="form-label fw-bold">Extracted Text</label>
-			<textarea class="form-control" rows="10" @bind="ExtractedText" readonly />
+			<textarea class="form-control" rows="10" @bind="ExtractedText" readonly></textarea>
 		</div>
+
+		@if (!string.IsNullOrEmpty(ExtractedText))
+		{
+			<div class="d-flex gap-2">
+				<button class="btn btn-secondary" @onclick="CopyToClipboard">
+					<i class="bi bi-clipboard"></i> Copy
+				</button>
+				<button class="btn btn-primary" @onclick="ExportarDocumento">
+					<i class="bi bi-file-earmark-word"></i> Export to Word
+				</button>
+			</div>
+		}
 	</div>
-	@if (!string.IsNullOrEmpty(ExtractedText))
-	{
-		<button class="btn btn-secondary" @onclick="CopyToClipboard">Copy to Clipboard</button>
-	}
 </div>
 @code {
 	private byte[]? PdfBytes;
 	private string FileName = string.Empty;
 	private string ExtractedText = string.Empty;
 	private bool IsProcessing = false;
+	private bool CanExecute => PdfBytes != null && !IsProcessing;
+	private bool CanClear => !string.IsNullOrEmpty(ExtractedText) || !string.IsNullOrEmpty(FileName);
+
 
 	private async Task HandlePdfSelected(IBrowserFile file)
 	{
@@ -98,5 +120,75 @@
 		}
 
 		throw new Exception("Token Jwt No disponible despues de esperar");
+	}
+
+	private void ClearPage()
+	{
+		PdfBytes = null;
+		FileName = null;
+		ExtractedText = string.Empty;
+	}
+
+	private async Task ExportarDocumento()
+	{
+		if (string.IsNullOrEmpty(ExtractedText))
+			return;
+		try
+		{
+			await ExportToWord(ExtractedText);
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error exporting document: {ex.Message}");
+		}
+	}
+
+	public async Task ExportToWord(string contenido, string nombreArchivo = "documento.docx")
+	{
+		// Crear el archivo en memoria
+		using (MemoryStream ms = new MemoryStream())
+		{
+			// Crear el documento Word
+			using (WordprocessingDocument wordDoc = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+			{
+				// Añadir una parte principal del documento
+				MainDocumentPart mainPart = wordDoc.AddMainDocumentPart();
+				mainPart.Document = new Document();
+				Body body = mainPart.Document.AppendChild(new Body());
+
+				// Procesar el contenido y crear párrafos con formato
+				string[] parrafos = contenido.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+				foreach (string parrafoTexto in parrafos)
+				{
+					if (string.IsNullOrWhiteSpace(parrafoTexto))
+						continue;
+
+					Paragraph parrafo = new Paragraph();
+					Run run = new Run();
+					Text texto = new Text(parrafoTexto);
+
+					run.AppendChild(texto);
+					parrafo.AppendChild(run);
+					body.AppendChild(parrafo);
+				}
+
+				// Guardar el documento
+				mainPart.Document.Save();
+			}
+
+			// Descargar el archivo
+			await DescargarArchivo(ms.ToArray(), nombreArchivo, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+		}
+	}
+
+	// Método para descargar el archivo usando JavaScript
+	private async Task DescargarArchivo(byte[] contenido, string nombreArchivo, string contentType)
+	{
+		// Convertir el array de bytes a base64
+		string base64 = Convert.ToBase64String(contenido);
+
+		// Usar JSRuntime para descargar el archivo
+		await JSRuntime.InvokeVoidAsync("descargarArchivo", base64, nombreArchivo, contentType);
 	}
 }
