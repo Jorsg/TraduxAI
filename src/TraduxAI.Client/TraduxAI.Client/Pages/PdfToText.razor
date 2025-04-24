@@ -14,7 +14,7 @@
 
 <div class="row">
 	<div class="col-md-6">
-		<FileUpload Accept=".pdf" OnFileSelected="HandlePdfSelected" />
+		<FileUpload Accept=".pdf" OnFileSelected="HandlePdfSelected" @key="fileUploadKey"/>
 
 		@if (!string.IsNullOrEmpty(FileName))
 		{
@@ -67,6 +67,7 @@
 	private string FileName = string.Empty;
 	private string ExtractedText = string.Empty;
 	private bool IsProcessing = false;
+	private Guid fileUploadKey = Guid.NewGuid();
 	private bool CanExecute => PdfBytes != null && !IsProcessing;
 	private bool CanClear => !string.IsNullOrEmpty(ExtractedText) || !string.IsNullOrEmpty(FileName);
 
@@ -127,6 +128,7 @@
 		PdfBytes = null;
 		FileName = null;
 		ExtractedText = string.Empty;
+		fileUploadKey = Guid.NewGuid();
 	}
 
 	private async Task ExportarDocumento()

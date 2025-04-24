@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "D:\\Repos\\TradService\\TraduxAI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CCC74C3B-AB04-47F5-842B-9C73B0757755}|src\\TraduxAI.Client\\TraduxAI.Client\\TraduxAI.Client.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.client\\traduxai.client\\pages\\texttranslation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CCC74C3B-AB04-47F5-842B-9C73B0757755}|src\\TraduxAI.Client\\TraduxAI.Client\\TraduxAI.Client.csproj|solutionrelative:src\\traduxai.client\\traduxai.client\\pages\\texttranslation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.translation.core\\traduxai.translation.core\\services\\documentprocessorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63BC21D8-DC65-4BD8-9BB3-93723374B4A5}|src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core.csproj|solutionrelative:src\\traduxai.translation.core\\traduxai.translation.core\\services\\documentprocessorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CCC74C3B-AB04-47F5-842B-9C73B0757755}|src\\TraduxAI.Client\\TraduxAI.Client\\TraduxAI.Client.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.client\\traduxai.client\\pages\\pdftotext.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -13,6 +13,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{CCC74C3B-AB04-47F5-842B-9C73B0757755}|src\\TraduxAI.Client\\TraduxAI.Client\\TraduxAI.Client.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.client\\traduxai.client\\pages\\imagetotext.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{CCC74C3B-AB04-47F5-842B-9C73B0757755}|src\\TraduxAI.Client\\TraduxAI.Client\\TraduxAI.Client.csproj|solutionrelative:src\\traduxai.client\\traduxai.client\\pages\\imagetotext.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCC74C3B-AB04-47F5-842B-9C73B0757755}|src\\TraduxAI.Client\\TraduxAI.Client\\TraduxAI.Client.csproj|d:\\repos\\tradservice\\traduxai\\src\\traduxai.client\\traduxai.client\\pages\\texttranslation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CCC74C3B-AB04-47F5-842B-9C73B0757755}|src\\TraduxAI.Client\\TraduxAI.Client\\TraduxAI.Client.csproj|solutionrelative:src\\traduxai.client\\traduxai.client\\pages\\texttranslation.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -35,6 +39,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DocumentProcessorService.cs",
+              "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\DocumentProcessorService.cs",
+              "RelativeDocumentMoniker": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\DocumentProcessorService.cs",
+              "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\DocumentProcessorService.cs",
+              "RelativeToolTip": "src\\TraduxAI.Translation.Core\\TraduxAI.Translation.Core\\Services\\DocumentProcessorService.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAowEQAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T15:42:41.835Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -57,14 +74,14 @@
               "RelativeDocumentMoniker": "src\\TraduxAI.Client\\TraduxAI.Client\\Pages\\PdfToText.razor",
               "ToolTip": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Client\\TraduxAI.Client\\Pages\\PdfToText.razor",
               "RelativeToolTip": "src\\TraduxAI.Client\\TraduxAI.Client\\Pages\\PdfToText.razor",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAwwCIAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAADoAAAAAAAAAAAAwwFwAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-04-24T15:05:51.234Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "TextTranslation.razor",
               "DocumentMoniker": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Client\\TraduxAI.Client\\Pages\\TextTranslation.razor",
               "RelativeDocumentMoniker": "src\\TraduxAI.Client\\TraduxAI.Client\\Pages\\TextTranslation.razor",
