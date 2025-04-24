@@ -14,7 +14,7 @@
 
 <div class="row">
 	<div class="col-md-6">
-		<FileUpload Accept="image/*" OnFileSelected="HandleImageSelected" />
+		<FileUpload Accept="image/*" OnFileSelected="HandleImageSelected" @key="fileUploadKey" />
 
 		@if (!string.IsNullOrEmpty(PreviewUrl))
 		{
@@ -66,6 +66,7 @@
 	private string? PreviewUrl;
 	private string ExtractedText = string.Empty;
 	private bool IsProcessing = false;
+	private Guid fileUploadKey = Guid.NewGuid();
 	private bool CanExecute => SelectedFile != null && !IsProcessing;
 	private bool CanClear => !string.IsNullOrEmpty(ExtractedText) || !string.IsNullOrEmpty(PreviewUrl);
 
@@ -131,6 +132,7 @@
 		SelectedFile = null;
 		PreviewUrl = null;
 		ExtractedText = string.Empty;
+		fileUploadKey = Guid.NewGuid();
 	}
 
 	private async Task ExportarDocumento()
