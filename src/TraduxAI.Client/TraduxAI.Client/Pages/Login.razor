@@ -34,6 +34,11 @@
 		}
 	</button>
 </EditForm>
+<!-- ✅ Link to Create User page -->
+<div class="mt-3">
+	¿No tienes cuenta?
+	<NavLink href="/create-user" class="btn btn-link" Match="NavLinkMatch.All">Crear una nueva cuenta</NavLink>
+</div>
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {

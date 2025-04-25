@@ -4,3 +4,9 @@
     enlace.download = nombreArchivo;
     enlace.click();
 };
+window.bootstrapModalHelper = {
+    showModal: function (selector) {
+        var myModal = new bootstrap.Modal(document.querySelector(selector));
+        myModal.show();
+    }
+};
