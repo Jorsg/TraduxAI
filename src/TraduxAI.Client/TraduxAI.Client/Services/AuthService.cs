@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using DocumentFormat.OpenXml.Office2016.Excel;
+using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TraduxAI.Client.Models;
@@ -12,6 +13,7 @@ namespace TraduxAI.Client.Services
 		Task<string?> GetTokenAsync(); // Para consultar el token almacenado
 		Task SetTokenAsync(string token); // Para establecer el token
 		string? GetCachedToken(); // Para obtener el token almacenado en caché
+		Task<UserResponse> CreateUserAsync(UserRequest request);
 
 	}
 	public class AuthService : IAuthService
@@ -31,7 +33,7 @@ namespace TraduxAI.Client.Services
 		public string? GetCachedToken() => _token;
 
 		public async Task<string?> GetTokenAsync()
-		{			
+		{
 			try
 			{
 				var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
@@ -77,6 +79,24 @@ namespace TraduxAI.Client.Services
 		public void SetCacheToken(string token)
 		{
 			_token = token;
+		}
+
+		public async Task<UserResponse> CreateUserAsync(UserRequest request)
+		{
+			UserResponse userResponse = new();
+			var response = await _httpClient.PostAsJsonAsync("api/auth/register", request);
+			if (response.IsSuccessStatusCode)
+			{
+				var registerResponse = await response.Content.ReadFromJsonAsync<UserResponse>(_jsonOptions)
+								   ?? throw new Exception("Error deserializing login response");
+				userResponse.Success = true;
+				return userResponse;
+			}
+			else
+			{
+				var error = await response.Content.ReadAsStringAsync();
+				throw new Exception($"Error during register: {response.StatusCode} - {userResponse.ErrorMessage = error}");
+			}
 		}
 	}
 }

@@ -1,0 +1,97 @@
+﻿@page "/create-user"
+@using System.ComponentModel.DataAnnotations
+@using TraduxAI.Client.Models
+@using TraduxAI.Client.Providers
+@using TraduxAI.Client.Services
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<EditForm Model="@newUser" OnValidSubmit="HandleValidSubmit">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+	<div class="mb-3">
+		<label class="form-label">Email:</label>
+		<InputText @bind-Value="newUser.Email" class="form-control" />
+		<ValidationMessage For="@(() => newUser.Email)" />
+	</div>
+
+	<div class="mb-3">
+		<label class="form-label">Password:</label>
+		<InputText @bind-Value="newUser.Password" type="password" class="form-control" />
+		<ValidationMessage For="@(() => newUser.Password)" />
+	</div>
+
+	<div class="mb-3">
+		<label class="form-label">Confirm Password:</label>
+		<InputText @bind-Value="newUser.ConfirmPassword" type="password" class="form-control" />
+		<ValidationMessage For="@(() => newUser.ConfirmPassword)" />
+	</div>
+
+	<button type="submit" class="btn btn-primary">Create User</button>
+</EditForm>
+
+<!-- ✅ Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-success text-white">
+				<h5 class="modal-title" id="successModalLabel">User Created</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				✅ New user created successfully!
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ✅ Error message -->
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+	<div class="alert alert-danger mt-3">@errorMessage</div>
+}
+
+@code {
+	private UserRequest newUser = new();
+	private string? errorMessage = string.Empty;
+
+	private async Task HandleValidSubmit()
+	{		
+		try
+		{
+			var response = await AuthService.CreateUserAsync(newUser);
+			if (!response.Success)
+			{
+				errorMessage = $"X No se pudo crear el usuario: {response.ErrorMessage ?? "Error desconocido"}";
+				return;
+			}
+			else
+			{
+				errorMessage = "Usuario creado con exito, use su usuario para logiarse";
+				return;
+			}
+			//await ShowModalAsync();
+			errorMessage = string.Empty;
+
+		}
+		catch (Exception ex)
+		{
+			
+			errorMessage = $"X Error al crear el usuario: {ex.Message}";
+		}
+	}
+
+	private async Task ShowModalAsync()
+	{
+		await JS.InvokeVoidAsync("bootstrapModalHelper.showModal", "#successModal");
+	}
+
+	[Inject]
+	private IJSRuntime JS { get; set; } = default!;
+
+
+}
