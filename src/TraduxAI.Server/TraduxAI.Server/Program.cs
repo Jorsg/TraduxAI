@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.Design;
 using System.Text;
 using TraduxAI.Shared.Data;
 using TraduxAI.Shared.Errors;
@@ -31,6 +33,9 @@ builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddTransient<MongoDbContext>();
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<IRefreshTokenServices, RefreshTokenService>();
+builder.Services.AddTransient<RefreshTokenRepository>();
 
 
 // Register HTTP client
@@ -58,7 +63,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-	options.RequireHttpsMetadata = false;
+	options.RequireHttpsMetadata = true;
 	options.SaveToken = true;
 	options.TokenValidationParameters = new TokenValidationParameters
 	{
@@ -70,7 +75,28 @@ builder.Services.AddAuthentication(options =>
 		IssuerSigningKey = new SymmetricSecurityKey(key),
 		ClockSkew = TimeSpan.Zero
 	};
+	options.Events = new JwtBearerEvents
+	{
+		OnMessageReceived = context =>
+		{
+			if (context.Request.Cookies.ContainsKey("jwt_token"))
+			{
+				context.Token = context.Request.Cookies["jwt_token"];
+			}
+			return Task.CompletedTask;
+		},
+	};
 });
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(options =>
+	{
+		options.Cookie.Name = "jwt_token";
+		options.Cookie.HttpOnly = true;
+		options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+		options.ExpireTimeSpan = TimeSpan.FromDays(30);
+		options.SlidingExpiration = true;
+		options.LoginPath = "/login";
+	});
 
 builder.Services.AddAuthorization();
 

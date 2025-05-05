@@ -17,7 +17,18 @@ namespace TraduxAI.Translation.Core.Services
 			_configuration = configuration;
 		}
 
-		public string GenerateToken(User user)
+		public TokenAccess GenerateToken(User user)
+		{
+			var accessToken = GenerateAccessToken(user);
+			var refreshToken = GetRefreshToken();			
+			return new TokenAccess
+			{
+				AccessToken = accessToken,
+				RefreshToken = refreshToken
+			};
+		}
+
+		public string GenerateAccessToken(User user)
 		{
 			var claim = new[]
 			{
@@ -41,5 +52,23 @@ namespace TraduxAI.Translation.Core.Services
 			return new JwtSecurityTokenHandler().WriteToken(token);
 
 		}
+
+		private RefreshToken GetRefreshToken()
+		{
+			var refereshToken = new RefreshToken
+			{
+				Token = Guid.NewGuid().ToString(),
+				CreateAt = DateTime.UtcNow,
+				ExpiresAt = DateTime.UtcNow.AddMonths(1),
+			};
+			return refereshToken;
+		}
+	}
+
+	public class TokenAccess
+	{
+		public string AccessToken { get; set; }
+		public RefreshToken RefreshToken { get; set; }
+
 	}
 }

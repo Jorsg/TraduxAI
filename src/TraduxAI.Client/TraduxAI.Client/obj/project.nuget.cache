@@ -1,20 +1,20 @@
 {
   "version": 2,
-  "dgSpecHash": "vIV9q1V6t9c=",
+  "dgSpecHash": "02LUXJPmQCg=",
   "success": true,
   "projectFilePath": "D:\\Repos\\TradService\\TraduxAI\\src\\TraduxAI.Client\\TraduxAI.Client\\TraduxAI.Client.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Admin\\.nuget\\packages\\documentformat.openxml\\3.3.0\\documentformat.openxml.3.3.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\documentformat.openxml.framework\\3.3.0\\documentformat.openxml.framework.3.3.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.2\\microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.7.0\\microsoft.identitymodel.abstractions.8.7.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.7.0\\microsoft.identitymodel.jsonwebtokens.8.7.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.identitymodel.logging\\8.7.0\\microsoft.identitymodel.logging.8.7.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.7.0\\microsoft.identitymodel.tokens.8.7.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.7.0\\system.identitymodel.tokens.jwt.8.7.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512"
+    "C:\\Users\\User\\.nuget\\packages\\documentformat.openxml\\3.3.0\\documentformat.openxml.3.3.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\documentformat.openxml.framework\\3.3.0\\documentformat.openxml.framework.3.3.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.2\\microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.7.0\\microsoft.identitymodel.abstractions.8.7.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.7.0\\microsoft.identitymodel.jsonwebtokens.8.7.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.identitymodel.logging\\8.7.0\\microsoft.identitymodel.logging.8.7.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.7.0\\microsoft.identitymodel.tokens.8.7.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.7.0\\system.identitymodel.tokens.jwt.8.7.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512"
   ],
   "logs": []
 }

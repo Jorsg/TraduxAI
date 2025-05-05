@@ -20,5 +20,6 @@ namespace TraduxAI.Shared.Data
 		}
 
 		public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
+		public IMongoCollection<RefreshToken> RefreshToken => _database.GetCollection<RefreshToken>("RefreshTokens");
 	}
 }

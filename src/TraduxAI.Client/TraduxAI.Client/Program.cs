@@ -15,6 +15,7 @@ builder.Services.AddTransient<IDocumentProcessingService, DocumentProcessingServ
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 builder.Services.AddSingleton(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthorizationCore();
 

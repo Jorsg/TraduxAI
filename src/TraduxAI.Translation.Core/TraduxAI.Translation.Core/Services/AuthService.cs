@@ -24,7 +24,7 @@ namespace TraduxAI.Translation.Core.Services
 			_jwtService = jwtService;
 		}
 
-		public async Task<(bool Success, string Message, string? Token)> LoginUserAsync(LoginUserDto dto)
+		public async Task<(bool Success, string Message, TokenAccess? Token)> LoginUserAsync(LoginUserDto dto)
 		{
 			var user = await _userRepository.GetUserByEmailAsync(dto.Email);
 			if (user == null)

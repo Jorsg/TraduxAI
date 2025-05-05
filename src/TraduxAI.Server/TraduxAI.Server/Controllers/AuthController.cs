@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TraduxAI.Shared.DTOs;
-using TraduxAI.Shared.Models;
 using TraduxAI.Translation.Core.Interfaces;
 
 namespace TraduxAI.Server.Controllers
@@ -12,9 +10,13 @@ namespace TraduxAI.Server.Controllers
 	public class AuthController : ControllerBase
 	{
 		private readonly IAuthService _authService;
-		public AuthController(IAuthService authService)
+		private readonly IRefreshTokenServices _refreshTokenServices;
+		private readonly IConfiguration _config;
+		public AuthController(IAuthService authService, IConfiguration config, IRefreshTokenServices refreshTokenServices)
 		{
 			_authService = authService;
+			_config = config;
+			_refreshTokenServices = refreshTokenServices;
 		}
 
 		[HttpPost("register")]
@@ -45,18 +47,26 @@ namespace TraduxAI.Server.Controllers
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 		public async Task<IActionResult> Login(LoginUserDto dto)
 		{
+			AuthResponseDto response = new AuthResponseDto();
+
 			var result = await _authService.LoginUserAsync(dto);
 
 			if (!result.Success)
 			{
 				return Unauthorized(new { message = result.Message });
 			}
+			//Generate refresh token
+			response.RefreshToken = result.Token.RefreshToken.Token;
+			_refreshTokenServices.InsertRefreshTokenAsync(result.Token.RefreshToken, dto.Email);
+			_refreshTokenServices.DisableUserTokenByEmailAsync(dto.Email);
 
-			// Later: return token here
+			//return token here
 			return Ok(new
 			{
+				success = true,
 				message = result.Message,
-				token = result.Token
+				token = result.Token.AccessToken,
+				refreshToken = response.RefreshToken,
 			});
 		}
 		[HttpGet("me")]
@@ -66,8 +76,43 @@ namespace TraduxAI.Server.Controllers
 			var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
 			var id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 			var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
-			return Ok(new {id, email, role });
+			return Ok(new { id, email, role });
 		}
 
+		[HttpPost("refresh")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		public ActionResult<AuthResponseDto> RefreshToken()
+		{
+			AuthResponseDto response = new AuthResponseDto();
+			var resfreshToken = Request.Cookies["refreshToken"];
+			if (string.IsNullOrEmpty(resfreshToken))
+				return BadRequest(new { message = "Refresh token is missing" });
+			var isValid = _refreshTokenServices.IsRefreshTokenValid(resfreshToken).Result;
+			if (!isValid)
+				return BadRequest(new { message = "Refresh token is invalid" });
+			var currentUser = _refreshTokenServices.FindUserByToken(resfreshToken).Result;
+			if (currentUser == null)
+				return BadRequest(new { message = "User not found" });
+			//Generate new token
+			var token = _authService.LoginUserAsync(new LoginUserDto { Email = currentUser.Email, Password = currentUser.PasswordHash }).Result;
+			response.AccessToken = token.Token.AccessToken;
+			response.RefreshToken = token.Token.RefreshToken.Token;
+
+			//Set new refresh token in cookie
+			_refreshTokenServices.DisableUserToken(resfreshToken);
+			_refreshTokenServices.InsertRefreshTokenAsync(token.Token.RefreshToken, currentUser.Email);
+			return Ok(response);
+		}
+
+		[HttpPost("logout")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		public ActionResult Logout()
+		{
+			var resfreshToken = Request.Cookies["refreshToken"];
+			if (string.IsNullOrEmpty(resfreshToken))
+				return BadRequest(new { message = "Refresh token is missing" });
+			_refreshTokenServices.DisableUserToken(resfreshToken);
+			return Ok(new { message = "Logout successful" });
+		}
 	}
 }

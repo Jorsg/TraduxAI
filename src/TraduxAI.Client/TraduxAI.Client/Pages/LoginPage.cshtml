@@ -1,0 +1,24 @@
+﻿@page "/login1"
+@model LoginPageModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <form method="post">
+        <label>Email: <input type="text" name="email" /></label><br />
+        <label>Password: <input type="password" name="password" /></label><br />
+        <button type="submit">Login</button>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p style="color:red">@Model.ErrorMessage</p>
+    }
+</body>
+</html>
