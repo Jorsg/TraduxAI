@@ -12,12 +12,14 @@ namespace TraduxAI.Server.Controllers
 		private readonly IAuthService _authService;
 		private readonly IRefreshTokenServices _refreshTokenServices;
 		private readonly IConfiguration _config;
-		public AuthController(IAuthService authService, IConfiguration config, IRefreshTokenServices refreshTokenServices)
+		private readonly IJwtService _jwtService;
+        public AuthController(IAuthService authService, IConfiguration config, IRefreshTokenServices refreshTokenServices,IJwtService jwtService)
 		{
 			_authService = authService;
 			_config = config;
 			_refreshTokenServices = refreshTokenServices;
-		}
+            _jwtService = jwtService;
+        }
 
 		[HttpPost("register")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -94,13 +96,13 @@ namespace TraduxAI.Server.Controllers
 			if (currentUser == null)
 				return BadRequest(new { message = "User not found" });
 			//Generate new token
-			var token = _authService.LoginUserAsync(new LoginUserDto { Email = currentUser.Email, Password = currentUser.PasswordHash }).Result;
-			response.AccessToken = token.Token.AccessToken;
-			response.RefreshToken = token.Token.RefreshToken.Token;
+			var token = _jwtService.GenerateToken(currentUser);
+            response.AccessToken = token.AccessToken;
+			response.RefreshToken = token.RefreshToken.Token;
 
 			//Set new refresh token in cookie
 			_refreshTokenServices.DisableUserToken(resfreshToken);
-			_refreshTokenServices.InsertRefreshTokenAsync(token.Token.RefreshToken, currentUser.Email);
+			_refreshTokenServices.InsertRefreshTokenAsync(token.RefreshToken, currentUser.Email);
 			return Ok(response);
 		}
 

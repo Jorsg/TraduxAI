@@ -4,10 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TraduxAI.Shared.Models;
+using TraduxAI.Translation.Core.Interfaces;
 
 namespace TraduxAI.Translation.Core.Services
 {
-	public class JwtService
+	public class JwtService : IJwtService
 	{
 		//private readonly JwtSettings _jwtSettings;
 		private readonly IConfiguration _configuration;
