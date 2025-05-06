@@ -31,7 +31,7 @@ builder.Services.Configure<MongoDbSettings>(
 	builder.Configuration.GetSection("MongoDbSettings"));
 builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddTransient<MongoDbContext>();
-//builder.Services.AddSingleton<JwtService>();
+builder.Services.AddSingleton<JwtService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IRefreshTokenServices, RefreshTokenService>();
