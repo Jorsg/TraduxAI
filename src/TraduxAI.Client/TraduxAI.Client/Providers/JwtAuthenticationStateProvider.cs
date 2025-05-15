@@ -10,79 +10,52 @@ namespace TraduxAI.Client.Providers
 		private readonly IAuthService _authService;
 		private string? _token;
 		private ClaimsPrincipal? _cachedUser;
+		private readonly AccesTokenService _accesTokenService;
 
-		public JwtAuthenticationStateProvider(IAuthService authService)
+        public JwtAuthenticationStateProvider(IAuthService authService, AccesTokenService accesTokenService)
 		{
 			_authService = authService;
-		}
+            _accesTokenService = accesTokenService;
+        }
 
 		public override async Task<AuthenticationState> GetAuthenticationStateAsync()
 		{
-			if(_cachedUser is not null)
+
+			try
 			{
-				return new AuthenticationState(_cachedUser);
-			}
+				var token = await _accesTokenService.GetAccessToken();
+                if (string.IsNullOrEmpty(token))
+                {
+                    // No hay token, el usuario no está autenticado
+                   return await MarkAsUnauthorize();
+                }
 
-			var token = await _authService.GetTokenAsync();
-			ClaimsIdentity identity = new ClaimsIdentity();
-			if (!string.IsNullOrEmpty(token))
+				var readJwtToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+				var identity = new ClaimsIdentity(readJwtToken.Claims, "jwt");
+				var principal = new ClaimsPrincipal(identity);
+
+				return await Task.FromResult(new AuthenticationState(principal));
+            }
+			catch (Exception)
 			{
-				var jwtHandler = new JwtSecurityTokenHandler();
-				try
-				{
-					var jwtToken = jwtHandler.ReadJwtToken(token);
-					if(jwtToken.ValidTo < DateTime.UtcNow)
-					{
-						await _authService.LogoutAsync();
-						return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-					}
-					var claims = jwtToken.Claims.ToList();
-					identity = new ClaimsIdentity(claims, "jwt");
-				}
-				catch (Exception)
-				{
-
-					await _authService.LogoutAsync(); // Previene loops
-					return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-				}
-			}			
-			
-			return new AuthenticationState(new ClaimsPrincipal(identity));
+				return await MarkAsUnauthorize();
+            }
 		}
 
-		public async Task NotifyUserAuthentication(string token)
-		{
-			_token = token;
-			await _authService.SetTokenAsync(token);
-			var identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
-			var user = new ClaimsPrincipal(identity);
-			// Notifica al sistema que el estado de autenticación ha cambiado.
-			_cachedUser = user;
+		public async Task<AuthenticationState> MarkAsUnauthorize()
+        {
+			try
+			{
+				var state = new  AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+                NotifyAuthenticationStateChanged(Task.FromResult(state));
+                return state;
+            }
+			catch (Exception)
+			{
 
-			NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
-		}
+				return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            }
+        }
 
-		// Método auxiliar para extraer claims desde el JWT
-		private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
-		{
-			var handler = new JwtSecurityTokenHandler();
-			var token = handler.ReadJwtToken(jwt);
-			return token.Claims;
-		}
-
-		public async Task NotifyUserLogout()
-		{
-			_token = null;
-			await _authService.LogoutAsync();			
-			_cachedUser = null;
-			NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()))));
-		}
-
-		public async Task ForceAuthStateRefresh()
-		{
-			var state = await GetAuthenticationStateAsync();
-			NotifyAuthenticationStateChanged(Task.FromResult(state));
-		}
-
-	}
+    }
 }

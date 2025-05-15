@@ -16,8 +16,15 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 builder.Services.AddSingleton(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<CookieService>();
+builder.Services.AddScoped<AccesTokenService>();
 
 builder.Services.AddAuthorizationCore();
+
+builder.Services.AddAuthentication()
+    .AddScheme<CustomerOption, JwtAuthenticationHandler>(
+    "jwtAuth", opt => { } );
+
 
 //Configure httpClient for API Call
 builder.Services.AddHttpClient<IAuthService, AuthService>(client =>

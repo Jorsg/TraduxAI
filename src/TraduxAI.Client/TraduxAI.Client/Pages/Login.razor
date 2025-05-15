@@ -57,12 +57,8 @@
 
 		try
 		{
-			var response = await AuthService.LoginAsync(loginModel);
 			// Actualizamos el estado de autenticación
-			if (AuthStateProvider is JwtAuthenticationStateProvider customAuthProvider)
-			{
-				await customAuthProvider.NotifyUserAuthentication(response.Token);
-			}
+			var response = await AuthService.LoginAsync(loginModel);
 			// Redirigimos a la página de inicio u otra protegida
 			Navigation.NavigateTo("/", forceLoad: true);
 		}
