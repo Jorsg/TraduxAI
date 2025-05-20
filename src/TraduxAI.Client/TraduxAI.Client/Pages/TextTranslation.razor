@@ -8,6 +8,7 @@
 @using DocumentFormat.OpenXml;
 @using DocumentFormat.OpenXml.Packaging;
 @using DocumentFormat.OpenXml.Wordprocessing
+@inject CookieService CookieAuthService
 
 <h3 class="fw-bold mb-4">Text Translation</h3>
 
@@ -141,7 +142,7 @@
 		for (int i = 0; i < 10; i++)
 		{
 			await Task.Delay(1000);
-			var token = await AuthService.GetTokenAsync();
+			var token = await CookieAuthService.GetCookie("access_token");
 			if (!string.IsNullOrEmpty(token)) return token;
 
 			await Task.Delay(1000);

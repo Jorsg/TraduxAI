@@ -46,7 +46,7 @@ namespace TraduxAI.Translation.Core.Services
 				issuer: _configuration["JwtSettings:Issuer"],
 				audience: _configuration["JwtSettings:Audience"],
 				claims: claim,
-				expires: DateTime.Now.AddHours(1),
+				expires: DateTime.Now.AddSeconds(15),
 				signingCredentials: credentials
 			);
 

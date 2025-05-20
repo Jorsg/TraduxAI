@@ -18,6 +18,8 @@ builder.Services.AddSingleton(new JsonSerializerOptions { PropertyNamingPolicy =
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<CookieService>();
 builder.Services.AddScoped<AccesTokenService>();
+builder.Services.AddScoped<RefreshTokenService>();
+builder.Services.AddScoped<APIService>();
 
 builder.Services.AddAuthorizationCore();
 

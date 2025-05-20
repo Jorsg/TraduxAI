@@ -16,23 +16,30 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "MongoDbSettings:ConnectionString=mongodb://mongodb:27017"
       - JWT__Key=${JWT__Key}
+      - ASPNETCORE_kestrel_Certificate_Default_Password=${ASPNETCORE_kestrel_Certificate_Default_Password}
+      - ASPNETCORE_kestrel_Certificate_Default_Path=/https/aspnetapp.pfx
+      - ASPNETCORE_URLS=http://+:8080;https://+:8081
     ports:
       - "5001:8080"
       - "5002:8081"
+      - "443:443"
     depends_on:
       - mongodb
     env_file:
       - .env
+    volumes:
+    - ~/.aspnet/https:/https:ro
 
  traduxai.client:
     container_name: traduxai.client
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ApiSettings:BaseUrl=http://traduxai.server:8080" 
+      - "ApiSettings:BaseUrl=http://traduxai.server" 
       
     ports:
       - "5000:8080"
       - "5003:8081" 
+      - "5001:443"
     depends_on:
       - traduxai.server
     env_file:

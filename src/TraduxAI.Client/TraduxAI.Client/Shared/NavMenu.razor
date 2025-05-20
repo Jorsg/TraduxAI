@@ -61,7 +61,7 @@
         if (AuthStateProvider is JwtAuthenticationStateProvider customAuthProvider)
         {
             // Notificar al proveedor que el usuario ya no está autenticado
-            customAuthProvider.NotifyUserAuthentication(string.Empty);
+            //customAuthProvider.NotifyUserAuthentication(string.Empty);
         }
         Navigation.NavigateTo("/login");
     }

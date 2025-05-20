@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TraduxAI.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+439cfbcc7fdd9c8a00897f8ef54dd2df0939f397")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04ec4753fed0c55ef03df673a9a3aae1a67d5057")]
 [assembly: System.Reflection.AssemblyProductAttribute("TraduxAI.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TraduxAI.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
