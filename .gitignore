@@ -367,3 +367,5 @@ Generated\ Files/
 # Visual Studio for Mac
 .vscode/
 .DS_Store
+# Ignore Data Protection keys
+/src/TraduxAI.Client/TraduxAI.Client/keys_TraduxAI/

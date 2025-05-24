@@ -24,7 +24,7 @@ namespace TraduxAI.Client.Services
                 return string.Empty;
         }
 
-        internal async Task Remove()
+        public async Task Remove()
         {
             await _protectLocalStorage.DeleteAsync(key);
         }

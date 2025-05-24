@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TraduxAI.Client.Interfaces;
 using TraduxAI.Client.Models;
 
 namespace TraduxAI.Client.Services
@@ -15,21 +16,20 @@ namespace TraduxAI.Client.Services
 		Task<UserResponse> CreateUserAsync(UserRequest request);
 
 	}
-	public class AuthService : IAuthService
-	{
+	public class AuthService : IAuthService, ITokenService
+    {
 		private readonly HttpClient _httpClient;
-		private readonly JsonSerializerOptions _jsonOptions;
-		private readonly IJSRuntime _jsRuntime;
-		private string? _token;
+		private readonly JsonSerializerOptions _jsonOptions;	
 		NavigationManager nav;
 		private readonly AccesTokenService _accesTokenService;
 		private readonly RefreshTokenService _refreshTokenService;
 
-        public AuthService(HttpClient httpClient, JsonSerializerOptions jsonOptions, 
+        public AuthService(
+			IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonOptions, 
 			IJSRuntime jSRuntime, AccesTokenService accesTokenService,
 			NavigationManager navigationManager, RefreshTokenService refreshTokenService)
         {
-            _httpClient = httpClient;
+			_httpClient = httpClientFactory.CreateClient("ApiClient");
             _jsonOptions = jsonOptions ?? new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
             _accesTokenService = accesTokenService ?? throw new ArgumentNullException(nameof(accesTokenService));
             nav = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
@@ -83,13 +83,13 @@ namespace TraduxAI.Client.Services
 
 		public async Task LogoutAsync()
 		{
-			var refreshToken = await _refreshTokenService.Get();
-			_httpClient.DefaultRequestHeaders.Add("Cookie",$"refreshtoken={refreshToken}");
-            var response = await _httpClient.PostAsync("api/auth/logout", null);
+			var refereshToken = await _refreshTokenService.Get();
+			_httpClient.DefaultRequestHeaders.Add("Cookie", $"refreshtoken={refereshToken}");
+			var response = await _httpClient.PostAsync("api/auth/logout", null);
             if (response.IsSuccessStatusCode)
             {
-                await _accesTokenService.DeleteAccessToken();
-                await _refreshTokenService.Remove();
+				await _refreshTokenService.Remove();
+                await _accesTokenService.DeleteAccessToken();          
                 nav.NavigateTo("/login", forceLoad: true);
 
             }

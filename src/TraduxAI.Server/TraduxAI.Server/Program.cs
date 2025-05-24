@@ -96,7 +96,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 		options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 		options.ExpireTimeSpan = TimeSpan.FromDays(30);
 		options.SlidingExpiration = true;
-		options.Cookie.SameSite = SameSiteMode.Strict;
+		options.Cookie.SameSite = SameSiteMode.Lax;
         options.LoginPath = "/login";
 	});
 

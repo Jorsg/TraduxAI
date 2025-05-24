@@ -30,8 +30,6 @@ namespace TraduxAI.Client.Providers
                var tickets = new AuthenticationTicket(principal, Scheme.Name);
                 var result = AuthenticateResult.Success(tickets);
                 return await Task.FromResult(result);
-
-
             }
             catch (Exception)
             {
@@ -51,14 +49,10 @@ namespace TraduxAI.Client.Providers
             Response.Redirect("/accessdenied");
             return Task.CompletedTask;
         }
-
     }
 
     public class CustomerOption : AuthenticationSchemeOptions
     {
         public string? Token { get; set; }
     }
-
-
-
 }

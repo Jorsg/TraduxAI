@@ -1,19 +1,23 @@
 ﻿using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components;
+using TraduxAI.Client.Interfaces;
 
 namespace TraduxAI.Client.Services
 {
     public class APIService
     {
         private readonly HttpClient _httpClient;
-        private readonly AuthService _authService;
+        private readonly ITokenService _tokenService;
         private readonly NavigationManager _navigationManager;
         private readonly AccesTokenService _accesTokenService;
-        public APIService(IHttpClientFactory httpClientFactory, AccesTokenService accesTokenService,
-            AuthService authService, NavigationManager navigationManager)
+        public APIService(
+            IHttpClientFactory httpClientFactory,
+            AccesTokenService accesTokenService,
+            ITokenService tokenService,
+            NavigationManager navigationManager)
         {
             _httpClient = httpClientFactory.CreateClient("ApiClient");
-            _authService = authService;
+            _tokenService = tokenService;
             _navigationManager = navigationManager;
             _accesTokenService = accesTokenService;
         }
@@ -29,9 +33,9 @@ namespace TraduxAI.Client.Services
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 // Handle unauthorized access, e.g., redirect to login page
-                var refreshToken = await _authService.RefreshTokenAsync();
+                var refreshToken = await _tokenService.RefreshTokenAsync();
                 if (!refreshToken)
-                    await _authService.LogoutAsync();
+                    await _tokenService.LogoutAsync();
 
                 var newToken = await _accesTokenService.GetAccessToken();
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", newToken);
@@ -57,9 +61,9 @@ namespace TraduxAI.Client.Services
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 // Handle unauthorized access, e.g., redirect to login page
-                var refreshToken = await _authService.RefreshTokenAsync();
+                var refreshToken = await _tokenService.RefreshTokenAsync();
                 if (!refreshToken)
-                    await _authService.LogoutAsync();
+                    await _tokenService.LogoutAsync();
 
                 var newToken = await _accesTokenService.GetAccessToken();
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", newToken);

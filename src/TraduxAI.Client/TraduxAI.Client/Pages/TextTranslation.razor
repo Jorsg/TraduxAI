@@ -10,80 +10,129 @@
 @using DocumentFormat.OpenXml.Wordprocessing
 @inject CookieService CookieAuthService
 
-<h3 class="fw-bold mb-4">Text Translation</h3>
-
-<div class="row">
-	<!-- Columna izquierda: Entrada -->
-	<div class="col-md-6">
-		<div class="mb-3">
-			<label class="form-label fw-bold">Source Language</label>
-			<select class="form-select" @bind="SourceLanguage">
-				@foreach (var lang in Languages)
-				{
-					<option value="@lang.Code">@lang.Label</option>
-				}
-			</select>
-		</div>
-
-		<div class="mb-3">
-			<label class="form-label fw-bold">Source Text</label>
-			<textarea class="form-control" rows="8" @bind="SourceText" placeholder="Enter text to translate..."></textarea>
-		</div>
-
-		<div class="mb-3">
-			<label class="form-label fw-bold">Prompt</label>
-			<input class="form-control" type="text" placeholder="Enter a prompt (optional)" @bind="Prompt" />
-		</div>
-
-		<div class="d-flex align-items-center gap-3">
-			<button class="btn btn-success" @onclick="TranslateText" disabled="@(!CanExecute || IsProcessing)">
-				<i class="bi bi-translate"></i> Translate
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm mb-4">
+	<div class="container-fluid">
+		<a class="navbar-brand fw-bold fs-4" href="">Tradux-AI</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end" id="mainNav">
+			<ul class="navbar-nav mb-2 mb-lg-0">
+				<li class="nav-item">
+					<NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+						<span class="oi oi-home" aria-hidden="true"></span> Home
+					</NavLink>
+				</li>
+				<li class="nav-item">
+					<NavLink class="nav-link" href="image-to-text">
+						<span class="oi oi-plus" aria-hidden="true"></span> Image To Text
+					</NavLink>
+				</li>
+				<li class="nav-item">
+					<NavLink class="nav-link" href="pdf-to-text">
+						<span class="oi oi-list-rich" aria-hidden="true"></span> PDF To Text
+					</NavLink>
+				</li>
+				<li class="nav-item">
+					<NavLink class="nav-link" href="translate">
+						<span class="oi oi-list-rich" aria-hidden="true"></span> Translate
+					</NavLink>
+				</li>
+			</ul>
+			<button class="btn btn-outline-light ms-3" @onclick="Logout">
+				<span class="oi oi-account-logout" aria-hidden="true"></span> Logout
 			</button>
-
-			<button class="btn btn-danger" @onclick="ClearPage" disabled="@(!CanClear)">
-				Clear Page
-			</button>
-
-			@if (IsProcessing)
-			{
-				<div class="d-flex align-items-center">
-					<div class="spinner-border spinner-border-sm text-primary me-2" role="status" aria-hidden="true"></div>
-					<span class="text-muted">Translating...</span>
-				</div>
-			}
 		</div>
 	</div>
+</nav>
 
-	<!-- Columna derecha: Salida -->
-	<div class="col-md-6">
-		<div class="mb-3">
-			<label class="form-label fw-bold">Target Language</label>
-			<select class="form-select" @bind="TargetLanguage">
-				@foreach (var lang in Languages.Where(l => l.Code != "auto"))
-				{
-					<option value="@lang.Code">@lang.Label</option>
-				}
-			</select>
-		</div>
 
-		<div class="mb-3">
-			<label class="form-label fw-bold">Translated Text</label>
-			<textarea class="form-control" rows="8" @bind="TranslatedText" readonly placeholder="The translated text will appear here."></textarea>
-		</div>
-
-		@if (!string.IsNullOrEmpty(TranslatedText))
-		{
-			<div class="d-flex gap-2">
-				<button class="btn btn-secondary" @onclick="CopyToClipboard">
-					<i class="bi bi-clipboard"></i> Copy
-				</button>
-				<button class="btn btn-primary" @onclick="ExportarDocumento">
-					<i class="bi bi-file-earmark-word"></i> Export to Word
-				</button>
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-12 col-lg-10">
+			<div class="jumbotron bg-light p-4 rounded-4 shadow-sm text-center mb-5">
+				<h2 class="display-6 fw-bold mb-2">Text Translation</h2>
+				<p class="lead mb-1">
+					Translate text between multiple languages with AI-powered accuracy.
+				</p>
 			</div>
-		}
+			<div class="row g-4">
+				<!-- Left Column: Source -->
+				<div class="col-12 col-md-6">
+					<div class="card h-100 shadow rounded-4 border-0">
+						<div class="card-body">
+							<div class="mb-3">
+								<label class="form-label fw-bold">Source Language</label>
+								<select class="form-select" @bind="SourceLanguage">
+									@foreach (var lang in Languages)
+									{
+										<option value="@lang.Code">@lang.Label</option>
+									}
+								</select>
+							</div>
+							<div class="mb-3">
+								<label class="form-label fw-bold">Source Text</label>
+								<textarea class="form-control" rows="8" @bind="SourceText" placeholder="Enter text to translate..."></textarea>
+							</div>
+							<div class="mb-3">
+								<label class="form-label fw-bold">Prompt <span class="text-muted fw-normal">(optional)</span></label>
+								<input class="form-control" type="text" placeholder="Enter a prompt (optional)" @bind="Prompt" />
+							</div>
+							<div class="d-flex align-items-center gap-3 mt-4">
+								<button class="btn btn-success" @onclick="TranslateText" disabled="@(!CanExecute || IsProcessing)">
+									<i class="bi bi-translate"></i> Translate
+								</button>
+								<button class="btn btn-danger" @onclick="ClearPage" disabled="@(!CanClear)">
+									Clear Page
+								</button>
+								@if (IsProcessing)
+								{
+									<div class="d-flex align-items-center ms-3">
+										<div class="spinner-border spinner-border-sm text-primary me-2" role="status" aria-hidden="true"></div>
+										<span class="text-muted">Translating...</span>
+									</div>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Right Column: Target -->
+				<div class="col-12 col-md-6">
+					<div class="card h-100 shadow rounded-4 border-0">
+						<div class="card-body">
+							<div class="mb-3">
+								<label class="form-label fw-bold">Target Language</label>
+								<select class="form-select" @bind="TargetLanguage">
+									@foreach (var lang in Languages.Where(l => l.Code != "auto"))
+									{
+										<option value="@lang.Code">@lang.Label</option>
+									}
+								</select>
+							</div>
+							<div class="mb-3">
+								<label class="form-label fw-bold">Translated Text</label>
+								<textarea class="form-control" rows="8" @bind="TranslatedText" readonly placeholder="The translated text will appear here."></textarea>
+							</div>
+							@if (!string.IsNullOrEmpty(TranslatedText))
+							{
+								<div class="d-flex gap-2 mt-2">
+									<button class="btn btn-secondary" @onclick="CopyToClipboard">
+										<i class="bi bi-clipboard"></i> Copy
+									</button>
+									<button class="btn btn-primary" @onclick="ExportarDocumento">
+										<i class="bi bi-file-earmark-word"></i> Export to Word
+									</button>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+
 
 @code {
 	private string SourceText = string.Empty;
@@ -214,5 +263,8 @@
 		await JSRuntime.InvokeVoidAsync("descargarArchivo", base64, nombreArchivo, contentType);
 	}
 
-
+	private async Task Logout()
+	{
+		await AuthService.LogoutAsync();
+	}
 }

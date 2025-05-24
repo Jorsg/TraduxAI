@@ -1,12 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "LpDK7b1EXHcdDf0LfhrR6voCywXP1juydA4RqQMak5E=",
-  "Source": "TraduxAI.Server",
-  "BasePath": "_content/TraduxAI.Server",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
-}
+{"Version":1,"Hash":"LpDK7b1EXHcdDf0LfhrR6voCywXP1juydA4RqQMak5E=","Source":"TraduxAI.Server","BasePath":"_content/TraduxAI.Server","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
