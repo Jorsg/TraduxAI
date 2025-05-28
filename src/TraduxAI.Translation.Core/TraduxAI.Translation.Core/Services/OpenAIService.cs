@@ -22,7 +22,7 @@ namespace TraduxAI.Translation.Core.Services
 		{
 			_httpClient = httpClient;
 			_configuration = configuration;
-			_apiKey = _configuration["OpenAI:ApiKey"];
+			_apiKey = _configuration["OpenAIKey"];
 			_baseUrl = _configuration["OpenAIUrl:BaseUrl"];
 
 			if (string.IsNullOrEmpty(_apiKey))
@@ -63,7 +63,7 @@ namespace TraduxAI.Translation.Core.Services
 			return response.Choices.FirstOrDefault()?.Message.Content ?? string.Empty;
 		}
 
-		public async Task<string> ImageToTextAsync(string base64Image)
+		public async Task<string> ImageToTextAsync(string base64Image, string promtp)
 		{
 			// Construct a prompt asking GPT-4 Vision to describe the image
 			var request = new OpenAIRequest
@@ -81,7 +81,7 @@ namespace TraduxAI.Translation.Core.Services
 							new MessageContent
 							{
 								Type = "text",
-								Text = "Please extract and transcribe all text from this image. If there's no text, just describe the image."
+								Text = $"Please extract and transcribe all text from this image. If there's no text, just describe the image. and {promtp}"
 							},
 							new MessageContent
 							{

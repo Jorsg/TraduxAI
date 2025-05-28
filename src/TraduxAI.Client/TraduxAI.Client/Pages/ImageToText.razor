@@ -23,6 +23,12 @@
 			</div>
 		}
 
+		<!-- Nuevo elemento Prompt -->
+		<div class="mb-3">
+			<label class="form-label fw-bold">Prompt</label>
+			<input class="form-control" type="text" placeholder="Enter a prompt (optional)" @bind="Prompt" />
+		</div>
+
 		<button class="btn btn-success me-2" @onclick="ProcessImage" disabled="@(!CanExecute)">
 			Execute Image to Text
 		</button>
@@ -48,7 +54,6 @@
 
 		@if (!string.IsNullOrEmpty(ExtractedText))
 		{
-
 			<div class="d-flex gap-2">
 				<button class="btn btn-secondary" @onclick="CopyToClipboard">
 					<i class="bi bi-clipboard"></i> Copy
@@ -69,6 +74,7 @@
 	private Guid fileUploadKey = Guid.NewGuid();
 	private bool CanExecute => SelectedFile != null && !IsProcessing;
 	private bool CanClear => !string.IsNullOrEmpty(ExtractedText) || !string.IsNullOrEmpty(PreviewUrl);
+	private string Prompt = string.Empty;
 
 
 
@@ -95,7 +101,7 @@
 			await stream.CopyToAsync(ms);
 			var imageBytes = ms.ToArray();
 
-			var result = await DocumentService.ProcessImageToTextAsync(imageBytes, token);
+			var result = await DocumentService.ProcessImageToTextAsync(imageBytes, token, Prompt);
 			ExtractedText = result.ProcessedContent;
 		}
 		catch (Exception ex)

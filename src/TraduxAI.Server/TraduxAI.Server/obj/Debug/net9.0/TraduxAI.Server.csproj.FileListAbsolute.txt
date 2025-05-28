@@ -64,12 +64,6 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.build.json
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.development.json
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets\msbuild.TraduxAI.Server.Microsoft.AspNetCore.StaticWebAssets.props
-D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets\msbuild.TraduxAI.Server.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets\msbuild.build.TraduxAI.Server.props
-D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.TraduxAI.Server.props
-D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.TraduxAI.Server.props
-D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.pack.json
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.A96E95BE.Up2Date
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.dll
@@ -77,3 +71,4 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.pdb
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.genruntimeconfig.cache
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\ref\TraduxAI.Server.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.build.json.cache

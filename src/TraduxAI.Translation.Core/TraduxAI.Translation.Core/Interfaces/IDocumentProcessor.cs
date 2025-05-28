@@ -10,7 +10,7 @@ namespace TraduxAI.Translation.Core.Interfaces
 	public interface IDocumentProcessor
 	{
 		Task<DocumentProcessResult> ProcessDocumentAsync(DocumentProcessRequest request);
-		Task<DocumentProcessResult> ExtractTextFromImageAsync(string base64Image);
+		Task<DocumentProcessResult> ExtractTextFromImageAsync(string base64Image, string prompt);
 		Task<DocumentProcessResult> ExtractTextFromPdfAsync(string base64Pdf);
 		Task<DocumentProcessResult> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage);
 	}
