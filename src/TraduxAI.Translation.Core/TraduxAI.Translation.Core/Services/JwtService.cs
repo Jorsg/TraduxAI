@@ -4,10 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TraduxAI.Shared.Models;
+using TraduxAI.Translation.Core.Interfaces;
 
 namespace TraduxAI.Translation.Core.Services
 {
-	public class JwtService
+	public class JwtService : IJwtService
 	{
 		//private readonly JwtSettings _jwtSettings;
 		private readonly IConfiguration _configuration;
@@ -17,7 +18,18 @@ namespace TraduxAI.Translation.Core.Services
 			_configuration = configuration;
 		}
 
-		public string GenerateToken(User user)
+		public TokenAccess GenerateToken(User user)
+		{
+			var accessToken = GenerateAccessToken(user);
+			var refreshToken = GetRefreshToken();			
+			return new TokenAccess
+			{
+				AccessToken = accessToken,
+				RefreshToken = refreshToken
+			};
+		}
+
+		public string GenerateAccessToken(User user)
 		{
 			var claim = new[]
 			{
@@ -34,12 +46,30 @@ namespace TraduxAI.Translation.Core.Services
 				issuer: _configuration["JwtSettings:Issuer"],
 				audience: _configuration["JwtSettings:Audience"],
 				claims: claim,
-				expires: DateTime.Now.AddHours(1),
+				expires: DateTime.Now.AddSeconds(15),
 				signingCredentials: credentials
 			);
 
 			return new JwtSecurityTokenHandler().WriteToken(token);
 
 		}
+
+		private RefreshToken GetRefreshToken()
+		{
+			var refereshToken = new RefreshToken
+			{
+				Token = Guid.NewGuid().ToString(),
+				CreateAt = DateTime.UtcNow,
+				ExpiresAt = DateTime.UtcNow.AddMonths(1),
+			};
+			return refereshToken;
+		}
+	}
+
+	public class TokenAccess
+	{
+		public string AccessToken { get; set; }
+		public RefreshToken RefreshToken { get; set; }
+
 	}
 }

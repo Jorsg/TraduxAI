@@ -15,14 +15,16 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "MongoDbSettings:ConnectionString=mongodb://mongodb:27017"
-      - JWT__Key=${JWT__Key}
+      - JWT__Key=${JWT__Key}  
     ports:
       - "5001:8080"
-      - "5002:8081"
+      - "5002:8081"    
+
     depends_on:
       - mongodb
     env_file:
       - .env
+
 
  traduxai.client:
     container_name: traduxai.client
@@ -32,7 +34,7 @@ services:
       
     ports:
       - "5000:8080"
-      - "5003:8081" 
+      - "5003:8081"   
     depends_on:
       - traduxai.server
     env_file:
