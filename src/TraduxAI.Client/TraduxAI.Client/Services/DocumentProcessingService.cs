@@ -10,7 +10,7 @@ namespace TraduxAI.Client.Services
 {
 	public interface IDocumentProcessingService
 	{
-		Task<DocumentProcessResult> ProcessImageToTextAsync(byte[] imageData, string token);
+		Task<DocumentProcessResult> ProcessImageToTextAsync(byte[] imageData, string token, string promtp);
 		Task<DocumentProcessResult> ProcessPdfToTextAsync(byte[] pdfData, string token);
 		Task<DocumentProcessResult> TranslateTextAsync(string text, string sourceLanguage, string targetLanguage, string token);
 	}
@@ -31,14 +31,19 @@ namespace TraduxAI.Client.Services
 			};
 		}
 
-		public async Task<DocumentProcessResult> ProcessImageToTextAsync(byte[] imageData, string token)
+		public async Task<DocumentProcessResult> ProcessImageToTextAsync(byte[] imageData, string token, string promtp)
 		{
 			var base64Image = Convert.ToBase64String(imageData);
-			var payload = JsonSerializer.Serialize(new { base64Content = base64Image }, _jsonOptions);
+
+			var body = new
+			{
+				promtp = promtp,
+                Base64Content = base64Image
+			};
 
 			var request = new HttpRequestMessage(HttpMethod.Post, "api/documentprocessing/ocr/image")
 			{
-				Content = new StringContent(payload, Encoding.UTF8, "application/json")
+				Content = new StringContent(JsonSerializer.Serialize(body, _jsonOptions), Encoding.UTF8, "application/json")
 			};
 
 			// ✅ add token to header Authorization

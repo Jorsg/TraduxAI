@@ -27,7 +27,7 @@ namespace TraduxAI.Translation.Core.Services
 				switch (request.DocumentType.ToLower())
 				{
 					case "image" when request.Operation.ToLower() == "ocr":
-						result = await ExtractTextFromImageAsync(request.Content);
+						result = await ExtractTextFromImageAsync(request.Content, request.Promtp);
 						break;
 					case "pdf" when request.Operation.ToLower() == "ocr":
 						result = await ExtractTextFromPdfAsync(request.Content);
@@ -51,9 +51,9 @@ namespace TraduxAI.Translation.Core.Services
 			}
 		}
 
-		public async Task<DocumentProcessResult> ExtractTextFromImageAsync(string base64Image)
+		public async Task<DocumentProcessResult> ExtractTextFromImageAsync(string base64Image, string promtp)
 		{
-			var extractedText = await _openAIService.ImageToTextAsync(base64Image);
+			var extractedText = await _openAIService.ImageToTextAsync(base64Image, promtp);
 
 			return new DocumentProcessResult
 			{

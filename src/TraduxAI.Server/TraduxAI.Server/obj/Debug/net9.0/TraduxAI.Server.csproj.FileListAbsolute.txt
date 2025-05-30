@@ -72,3 +72,4 @@ D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.pdb
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\TraduxAI.Server.genruntimeconfig.cache
 D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\ref\TraduxAI.Server.dll
+D:\Repos\TradService\TraduxAI\src\TraduxAI.Server\TraduxAI.Server\obj\Debug\net9.0\staticwebassets.build.json.cache

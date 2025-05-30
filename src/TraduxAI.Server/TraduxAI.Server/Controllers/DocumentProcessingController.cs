@@ -34,7 +34,7 @@ namespace TraduxAI.Server.Controllers
 			if (string.IsNullOrEmpty(base64Image.Base64Content))
 				return BadRequest("Image content is required");
 
-			var result = await _documentProcessor.ExtractTextFromImageAsync(base64Image.Base64Content);
+			var result = await _documentProcessor.ExtractTextFromImageAsync(base64Image.Base64Content, base64Image.promtp);
 			return Ok(result);
 		}
 
@@ -72,6 +72,7 @@ namespace TraduxAI.Server.Controllers
 	public class Base64Request
 	{
 		public string Base64Content { get; set; }
+		public string promtp { get; set; }
 	}
 }
 

@@ -122,6 +122,7 @@
 	private Guid fileUploadKey = Guid.NewGuid();
 	private bool CanExecute => SelectedFile != null && !IsProcessing;
 	private bool CanClear => !string.IsNullOrEmpty(ExtractedText) || !string.IsNullOrEmpty(PreviewUrl);
+	private string Prompt = string.Empty;
 
 
 
@@ -148,7 +149,7 @@
 			await stream.CopyToAsync(ms);
 			var imageBytes = ms.ToArray();
 
-			var result = await DocumentService.ProcessImageToTextAsync(imageBytes, token);
+			var result = await DocumentService.ProcessImageToTextAsync(imageBytes, token, Prompt);
 			ExtractedText = result.ProcessedContent;
 		}
 		catch (Exception ex)
