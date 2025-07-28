@@ -1,57 +1,98 @@
 ﻿@page "/"
+@using TraduxAI.Client.Providers
+@using TraduxAI.Client.Services
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
 @attribute [Authorize]
 
 <PageTitle>AI DOCUMENT PROCESSOR</PageTitle>
 
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold fs-4" href="">Tradux-AI</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                        <span class="oi oi-home" aria-hidden="true"></span> Home
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="image-to-text">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Image To Text
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="pdf-to-text">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> PDF To Text
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="translate">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Translate
+                    </NavLink>
+                </li>
+            </ul>
+            <button class="btn btn-outline-light ms-3" @onclick="Logout">
+                <span class="oi oi-account-logout" aria-hidden="true"></span> Logout
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN SECTION -->
 <div class="container">
-	<div class="row justify-content-center m-5">
-		<div class="col-md-10">
-			<div class="jumbtron">
-				<h4 class="display-4"> AI DOCUMENT PROCESSOR</h4>
-				<p class="lead">
-					A powerful tool to extract text from images, PDFs, and translate content between languages ussing OpenAI's advanced AI capabilities
-				</p>
-				<hr class="my-4">
-				<p>
-					Choose on of our services below to get started:</p>
-			</div>
-			<div class="row mt-4">
-				<div class="col-md-4 mb-4">
-					<div class="card h-100">
-						<div class="card-body text-center">
-							<h5 class="card-title">Image To Text</h5>
-							<p class="card-text">Extract text from images using AI-powered OCR.</p>
-							<a href="image-to-text" class="btn btn-primary">Get Started</a>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-			<div class="row mt-4">
-				<div class="col-md-4 mb-4">
-					<div class="card h-100 ">
-						<div class="card-body text-center">
-							<h5 class="card-title">PDF To Text</h5>
-							<p class="card-text">Convert PDF documents to editable text.</p>
-							<a href="pdf-to-text" class="btn btn-primary">Get Started</a>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-			<div class="row mt-4">
-				<div class="col-md-4 mb-4">
-					<div class="card h-100 ">
-						<div class="card-body text-center">
-							<h5 class="card-title">Text Translation</h5>
-							<p class="card-text">Translate text between multiple languages.</p>
-							<a href="translate" class="btn btn-primary">Get Started</a>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-		</div>
-	</div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="jumbotron bg-light p-5 rounded-4 shadow-sm text-center mb-5">
+                <h1 class="display-5 mb-3 fw-bold">AI DOCUMENT PROCESSOR</h1>
+                <p class="lead">
+                    A powerful tool to extract text from images, PDFs, and translate content between languages using OpenAI's advanced AI capabilities.
+                </p>
+                <hr class="my-4">
+                <p class="fs-5">Choose one of our services below to get started:</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 shadow rounded-4 border-0">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">Image To Text</h5>
+                            <p class="card-text">Extract text from images using AI-powered OCR.</p>
+                            <a href="image-to-text" class="btn btn-primary">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 shadow rounded-4 border-0">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">PDF To Text</h5>
+                            <p class="card-text">Convert PDF documents to editable text.</p>
+                            <a href="pdf-to-text" class="btn btn-primary">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 shadow rounded-4 border-0">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">Text Translation</h5>
+                            <p class="card-text">Translate text between multiple languages.</p>
+                            <a href="translate" class="btn btn-primary">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+    }
+}

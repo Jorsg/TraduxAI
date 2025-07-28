@@ -1,86 +1,105 @@
 ﻿using DocumentFormat.OpenXml.Office2016.Excel;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TraduxAI.Client.Interfaces;
 using TraduxAI.Client.Models;
 
 namespace TraduxAI.Client.Services
 {
 	public interface IAuthService
 	{
-		Task<LoginResponse> LoginAsync(LoginRequest request);
-		Task LogoutAsync();
-		Task<string?> GetTokenAsync(); // Para consultar el token almacenado
-		Task SetTokenAsync(string token); // Para establecer el token
-		string? GetCachedToken(); // Para obtener el token almacenado en caché
+		Task<AuthResponse> LoginAsync(LoginRequest request);
+		Task LogoutAsync();		
 		Task<UserResponse> CreateUserAsync(UserRequest request);
 
 	}
-	public class AuthService : IAuthService
-	{
+	public class AuthService : IAuthService, ITokenService
+    {
 		private readonly HttpClient _httpClient;
-		private readonly JsonSerializerOptions _jsonOptions;
-		private readonly IJSRuntime _jsRuntime;
-		private string? _token;
+		private readonly JsonSerializerOptions _jsonOptions;	
+		NavigationManager nav;
+		private readonly AccesTokenService _accesTokenService;
+		private readonly RefreshTokenService _refreshTokenService;
 
-		public AuthService(HttpClient httpClient, JsonSerializerOptions jsonOptions, IJSRuntime jSRuntime)
-		{
-			_httpClient = httpClient;
-			_jsonOptions = jsonOptions ?? new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-			_jsRuntime = jSRuntime ?? throw new ArgumentNullException(nameof(jSRuntime));
-		}
+        public AuthService(
+			IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonOptions, 
+			IJSRuntime jSRuntime, AccesTokenService accesTokenService,
+			NavigationManager navigationManager, RefreshTokenService refreshTokenService)
+        {
+			_httpClient = httpClientFactory.CreateClient("ApiClient");
+            _jsonOptions = jsonOptions ?? new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            _accesTokenService = accesTokenService ?? throw new ArgumentNullException(nameof(accesTokenService));
+            nav = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+            _refreshTokenService = refreshTokenService;
+        }
 
-		public string? GetCachedToken() => _token;
-
-		public async Task<string?> GetTokenAsync()
-		{
-			try
-			{
-				var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt_token");
-				return token;
-
-			}
-			catch (InvalidOperationException ex)
-			{
-				Console.WriteLine($"[AuthService] JSInterop aún no está disponible (prerender): {ex.Message}");
-				return null;
-			}
-		}
-
-		public async Task<LoginResponse> LoginAsync(LoginRequest request)
+        public async Task<AuthResponse> LoginAsync(LoginRequest request)
 		{
 			var response = await _httpClient.PostAsJsonAsync("api/auth/login", request);
 			if (response.IsSuccessStatusCode)
 			{
-				var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>(_jsonOptions)
+				var token = await response.Content.ReadAsStringAsync();
+                var loginResponse = await response.Content.ReadFromJsonAsync<AuthResponse>(_jsonOptions)
 								   ?? throw new Exception("Error deserializing login response");
-				return loginResponse;
+				await _accesTokenService.DeleteAccessToken();
+				await _accesTokenService.SetAccessToken(loginResponse.Token);
+				await _refreshTokenService.Set(loginResponse.RefreshToken);
+                return loginResponse;
 			}
 			else
 			{
 				var error = await response.Content.ReadAsStringAsync();
 				throw new Exception($"Error during login: {response.StatusCode} - {error}");
 			}
+		}
 
+		public async Task<bool> RefreshTokenAsync()
+		{
+			var refereshToken = await _refreshTokenService.Get();
+			_httpClient.DefaultRequestHeaders.Add("Cookie", $"refreshtoken={refereshToken}");
+            var response = await _httpClient.PostAsync("api/auth/refresh", null);
+			if (response.IsSuccessStatusCode)
+			{
+                var token = await response.Content.ReadAsStringAsync();
+                if (string.IsNullOrEmpty(token))
+				{
+                    var loginResponse = await response.Content.ReadFromJsonAsync<AuthResponse>(_jsonOptions)
+                                   ?? throw new Exception("Error deserializing login response");
+                    await _accesTokenService.SetAccessToken(loginResponse.Token);
+                    await _refreshTokenService.Set(loginResponse.RefreshToken);
+                    return true;
+                }                   
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error during refresh token: {response.StatusCode} - {error}");
+            }
+                return false;
 		}
 
 		public async Task LogoutAsync()
 		{
-			_token = null;
-			await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "jwt_token");
-		}
+			var refereshToken = await _refreshTokenService.Get();
+			_httpClient.DefaultRequestHeaders.Add("Cookie", $"refreshtoken={refereshToken}");
+			var response = await _httpClient.PostAsync("api/auth/logout", null);
+            if (response.IsSuccessStatusCode)
+            {
+				await _refreshTokenService.Remove();
+                await _accesTokenService.DeleteAccessToken();          
+                nav.NavigateTo("/login", forceLoad: true);
 
-		public async Task SetTokenAsync(string token)
-		{
-			_token = token;
-			await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "jwt_token", token);
-		}
-
-		public void SetCacheToken(string token)
-		{
-			_token = token;
-		}
-
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error during logout: {response.StatusCode} - {error}");
+            }
+        }
+		
 		public async Task<UserResponse> CreateUserAsync(UserRequest request)
 		{
 			UserResponse userResponse = new();

@@ -8,61 +8,109 @@
 @using TraduxAI.Client.Components
 @inject IDocumentProcessingService DocumentService
 @inject IJSRuntime JSRuntime
+@inject CookieService CookieAuthService
 @inject IAuthService AuthService
 
-<h3 class="fw-bold">Image To Text</h3>
-
-<div class="row">
-	<div class="col-md-6">
-		<FileUpload Accept="image/*" OnFileSelected="HandleImageSelected" @key="fileUploadKey" />
-
-		@if (!string.IsNullOrEmpty(PreviewUrl))
-		{
-			<div class="mb-3">
-				<img src="@PreviewUrl" class="img-fluid border rounded" alt="Selected image" />
-			</div>
-		}
-
-		<!-- Nuevo elemento Prompt -->
-		<div class="mb-3">
-			<label class="form-label fw-bold">Prompt</label>
-			<input class="form-control" type="text" placeholder="Enter a prompt (optional)" @bind="Prompt" />
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm mb-4">
+	<div class="container-fluid">
+		<a class="navbar-brand fw-bold fs-4" href="">Tradux-AI</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end" id="mainNav">
+			<ul class="navbar-nav mb-2 mb-lg-0">
+				<li class="nav-item">
+					<NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+						<span class="oi oi-home" aria-hidden="true"></span> Home
+					</NavLink>
+				</li>
+				<li class="nav-item">
+					<NavLink class="nav-link" href="image-to-text">
+						<span class="oi oi-plus" aria-hidden="true"></span> Image To Text
+					</NavLink>
+				</li>
+				<li class="nav-item">
+					<NavLink class="nav-link" href="pdf-to-text">
+						<span class="oi oi-list-rich" aria-hidden="true"></span> PDF To Text
+					</NavLink>
+				</li>
+				<li class="nav-item">
+					<NavLink class="nav-link" href="translate">
+						<span class="oi oi-list-rich" aria-hidden="true"></span> Translate
+					</NavLink>
+				</li>
+			</ul>
+			<button class="btn btn-outline-light ms-3" @onclick="Logout">
+				<span class="oi oi-account-logout" aria-hidden="true"></span> Logout
+			</button>
 		</div>
-
-		<button class="btn btn-success me-2" @onclick="ProcessImage" disabled="@(!CanExecute)">
-			Execute Image to Text
-		</button>
-
-		<button class="btn btn-danger" @onclick="ClearPage" disabled="@(!CanClear)">
-			Clear Page
-		</button>
-
-		@if (IsProcessing)
-		{
-			<div class="mt-2">
-				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-				<span>Processing...</span>
-			</div>
-		}
 	</div>
+</nav>
 
-	<div class="col-md-6">
-		<div class="mb-3">
-			<label class="form-label fw-bold">Extracted Text</label>
-			<textarea class="form-control" rows="10" @bind="ExtractedText" readonly></textarea>
-		</div>
-
-		@if (!string.IsNullOrEmpty(ExtractedText))
-		{
-			<div class="d-flex gap-2">
-				<button class="btn btn-secondary" @onclick="CopyToClipboard">
-					<i class="bi bi-clipboard"></i> Copy
-				</button>
-				<button class="btn btn-primary" @onclick="ExportarDocumento">
-					<i class="bi bi-file-earmark-word"></i> Export to Word
-				</button>
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-12 col-lg-10">
+			<div class="jumbotron bg-light p-4 rounded-4 shadow-sm text-center mb-5">
+				<h2 class="display-6 fw-bold mb-2">Image To Text</h2>
+				<p class="lead mb-1">
+					Extract text from your images using AI-powered OCR.
+				</p>
 			</div>
-		}
+			<div class="row g-4">
+				<!-- Left: Upload and Actions -->
+				<div class="col-12 col-md-6">
+					<div class="card h-100 shadow rounded-4 border-0">
+						<div class="card-body">
+							<FileUpload Accept="image/*" OnFileSelected="HandleImageSelected" @key="fileUploadKey" />
+							@if (!string.IsNullOrEmpty(PreviewUrl))
+							{
+								<div class="mb-3 mt-3 text-center">
+									<img src="@PreviewUrl" class="img-fluid border rounded shadow" style="max-height:250px;object-fit:contain;" alt="Selected image" />
+								</div>
+							}
+							<div class="d-flex align-items-center gap-3 mt-4">
+								<button class="btn btn-success" @onclick="ProcessImage" disabled="@(!CanExecute)">
+									<i class="bi bi-image"></i> Execute Image to Text
+								</button>
+								<button class="btn btn-danger" @onclick="ClearPage" disabled="@(!CanClear)">
+									Clear Page
+								</button>
+							</div>
+							@if (IsProcessing)
+							{
+								<div class="mt-3">
+									<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+									<span class="ms-2 text-muted">Processing...</span>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+				<!-- Right: Output -->
+				<div class="col-12 col-md-6">
+					<div class="card h-100 shadow rounded-4 border-0">
+						<div class="card-body">
+							<div class="mb-3">
+								<label class="form-label fw-bold">Extracted Text</label>
+								<textarea class="form-control" rows="10" @bind="ExtractedText" readonly placeholder="The extracted text will appear here."></textarea>
+							</div>
+							@if (!string.IsNullOrEmpty(ExtractedText))
+							{
+								<div class="d-flex gap-2 mt-2">
+									<button class="btn btn-secondary" @onclick="CopyToClipboard">
+										<i class="bi bi-clipboard"></i> Copy
+									</button>
+									<button class="btn btn-primary" @onclick="ExportarDocumento">
+										<i class="bi bi-file-earmark-word"></i> Export to Word
+									</button>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -121,10 +169,11 @@
 
 	private async Task<string> WaitForToken()
 	{
+
 		for (int i = 0; i < 10; i++)
 		{
 			await Task.Delay(1000);
-			var token = await AuthService.GetTokenAsync();
+			var token = await CookieAuthService.GetCookie("access_token");
 			if (!string.IsNullOrEmpty(token)) return token;
 
 			await Task.Delay(1000);
@@ -202,5 +251,10 @@
 
 		// Usar JSRuntime para descargar el archivo
 		await JSRuntime.InvokeVoidAsync("descargarArchivo", base64, nombreArchivo, contentType);
+	}
+
+	private async Task Logout()
+	{
+		await AuthService.LogoutAsync();
 	}
 }

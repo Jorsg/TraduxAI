@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.JSInterop;
 using System.Text.Json;
+using TraduxAI.Client.Interfaces;
 using TraduxAI.Client.Providers;
 using TraduxAI.Client.Services;
 
@@ -10,16 +12,29 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IDocumentProcessingService, DocumentProcessingService>();
 
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
 builder.Services.AddSingleton(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+builder.Services.AddScoped<CookieService>();
+builder.Services.AddScoped<AccesTokenService>();
+builder.Services.AddScoped<RefreshTokenService>();
+builder.Services.AddScoped<APIService>();
+builder.Services.AddScoped<ITokenService, AuthService>();
 
-builder.Services.AddAuthorizationCore();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication()
+    .AddScheme<CustomerOption, JwtAuthenticationHandler>(
+    "jwtAuth", opt => { } );
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"D:/Repo/TradService/keys_TraduxAI"));
+
 
 //Configure httpClient for API Call
-builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
+builder.Services.AddHttpClient("ApiClient",client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7220/");
 });
