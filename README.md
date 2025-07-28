@@ -16,7 +16,7 @@ A comprehensive document processing solution that leverages OpenAI's powerful AP
 - **.NET 9.0** - Core framework
 - **ASP.NET Core Web API** - RESTful API services
 - **Entity Framework Core** - ORM for data persistence
-- **MongDB** - Database (LocalDB for development)
+- **MongDB** - Database 
 - **HttpClient** - HTTP communication
 
 ### Frontend
@@ -120,4 +120,12 @@ TraduxAI/
 - API keys are stored securely in configuration
 - Input validation on all endpoints
 - Error messages don't expose sensitive information
+
+🐳 Docker & Azure VM Deployment
+Docker Support
+This project includes Docker support for easy deployment across environments. All backend and frontend projects provide Dockerfile definitions for containerization.
+
+Deploying to an Azure VM
+1. Build and Push Docker Images
+First, build your Docker images locally and push them to a container registry (such as Azure Container Registry or Docker Hub).
 
